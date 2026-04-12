@@ -1,0 +1,70 @@
+version: "3.1"
+
+nlu:
+- intent: comprimentar
+  examples: |
+    - não estou me sentindo bem
+    - estou meio triste hoje
+    - não tenho ânimo pra nada
+    - estou cansado de tudo
+    - parece que nada faz sentido
+    - ando me sentindo vazio
+    - não sinto vontade de fazer nada
+    - só queria ficar deitado o dia todo
+    - não vejo graça nas coisas
+    - estou me sentindo sozinho
+    - ninguém se importa comigo
+    - sinto que sou um peso
+    - minha vida não está indo pra frente
+    - não tenho motivação pra nada
+    - estou me sentindo perdido
+    - nada dá certo pra mim
+    - sinto que não sou bom o suficiente
+
+- intent: despedir
+  examples: |
+    - acho que não vai mudar nada
+    - até logo
+    - espero melhorar no futuro, até mais
+    = obrigado pela ajuda, vou procurar um profissional
+
+- intent: falar_sobre_o_problema 
+  examples: |
+    - estou com esse problema [ansiedade](problema)
+    - estou com problema de [insônia](problema)
+    - estou enfrentando [tristeza constante](problema)
+    - tenho um problema com [falta de motivação](problema)
+    - estou lidando com [depressão](problema)
+    - ando com [crises de ansiedade](problema)
+    - estou passando por [estresse](problema)
+    - meu problema é [solidão](problema)
+    - sinto muita [angústia](problema)
+    - estou com [medo constante](problema)
+    - venho tendo [pensamentos negativos](problema)
+    - estou sofrendo com [baixa autoestima](problema)
+    - não consigo lidar com [pressão](problema)
+    - estou com dificuldades por causa de [procrastinação](problema)
+    - tenho [problemas para dormir](problema)
+
+- intent: confirmar
+  examples: |
+    - sim
+    - com certeza
+    - acho que sim
+    - s
+
+- intent: negar
+  examples: |
+    - não
+    - n
+    - nunca
+    - acho que não
+    - nunca vai dar certo
+    - nada vai mudar
+
+- intent: buscar_ajuda_profissional
+  examples: |
+    - eu deveria procurar um profissional?
+    - talvez devesse procurar ajuda
+    - preciso buscar ajuda
+

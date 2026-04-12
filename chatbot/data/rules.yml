@@ -1,0 +1,33 @@
+version: "3.1"
+
+rules:
+
+- rule: responder cumprimento
+  steps:
+    - intent: comprimentar
+    - action: utter_comprimentar
+
+- rule: responder problema
+  steps:
+    - intent: falar_sobre_o_problema
+    - action: utter_falar_sobre_o_problema
+
+- rule: falar sobre ajuda profissional
+  steps:
+    - intent: buscar_ajuda_profissional
+    - action: utter_buscar_ajuda_profissional
+
+- rule: despedida
+  steps:
+    - intent: despedir
+    - action: utter_despedir
+
+- rule: confirmar ajuda
+  steps:
+    - intent: confirmar
+    - action: utter_despedir
+
+- rule: negar
+  steps:
+    - intent: negar
+    - action: utter_falar_sobre_o_problema

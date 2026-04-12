@@ -1,0 +1,28 @@
+version: "3.1"
+
+intents:
+  - comprimentar
+  - falar_sobre_o_problema
+  - buscar_ajuda_profissional
+  - despedir
+  - negar
+  - confirmar
+
+responses:
+  utter_comprimentar:
+    - text: "Oi, quero que você saiba que não está sozinho. Existem caminhos para lidar com isso, e eu estou aqui para te ouvir. Mas também é importante lembrar que conversar com um profissional pode ajudar muito. Quer me contar mais sobre o que está acontecendo?"
+
+  utter_falar_sobre_o_problema:
+    - text: "Sinto muito que você esteja passando por isso. Quer me contar mais sobre como está se sentindo?"
+    - text: "Entendo... isso pode ser bem difícil. Estou aqui para te ouvir."
+    - text: "Obrigado por compartilhar isso comigo. O que mais você tem sentido?"
+
+  utter_despedir:
+    - text: "Espero ter ajudado um pouco. Sei que lidar com isso não é fácil, mas você não precisa passar por isso sozinho. Buscar a ajuda de um profissional pode fazer muita diferença nesse momento. Se quiser conversar mais, estou por aqui. Se cuida."
+
+  utter_buscar_ajuda_profissional:
+    - text: "Sim, o meu auxilio nunca irá dispensar a busca de um profissional formado"
+
+session_config:
+  session_expiration_time: 60
+  carry_over_slots_to_new_session: true

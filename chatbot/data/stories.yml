@@ -1,0 +1,47 @@
+version: "3.1"
+
+stories:
+
+- story: saudacao e problema
+  steps:
+    - intent: comprimentar
+    - action: utter_comprimentar
+    - intent: falar_sobre_o_problema
+    - action: utter_falar_sobre_o_problema
+
+- story: direto ao problema
+  steps:
+    - intent: falar_sobre_o_problema
+    - action: utter_falar_sobre_o_problema
+
+- story: problema e busca por ajuda profissional
+  steps:
+    - intent: falar_sobre_o_problema
+    - action: utter_falar_sobre_o_problema
+    - intent: buscar_ajuda_profissional
+    - action: utter_buscar_ajuda_profissional
+
+- story: conversa completa
+  steps:
+    - intent: comprimentar
+    - action: utter_comprimentar
+    - intent: falar_sobre_o_problema
+    - action: utter_falar_sobre_o_problema
+    - intent: buscar_ajuda_profissional
+    - action: utter_buscar_ajuda_profissional
+    - intent: despedir
+    - action: utter_despedir
+
+- story: usuario nega ajuda
+  steps:
+    - intent: falar_sobre_o_problema
+    - action: utter_falar_sobre_o_problema
+    - intent: negar
+    - action: utter_falar_sobre_o_problema
+
+- story: usuario confirma ajuda
+  steps:
+    - intent: buscar_ajuda_profissional
+    - action: utter_buscar_ajuda_profissional
+    - intent: confirmar
+    - action: utter_despedir
