@@ -87,6 +87,8 @@ nlu:
     - perdi a vontade de conversar com amigos
     - me isolo das pessoas
     - evito sofrer aquilo que tanto me deixa mal
+    - não vejo sentido nas coisas
+    - não vejo por que continuar
 
 - intent: relatar_pensamentos_negativos
   examples: |

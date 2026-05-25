@@ -49,259 +49,259 @@ stories:
     - intent: negar_ideacao_suicida
     - action: action_encerrar_anamnese
 
-- story: anamnese completa - ansiedade com historico
-  steps:
-    - intent: iniciar_anamnese
-    - action: action_perguntar_nome
-    - intent: informar_nome
-    - action: action_perguntar_idade
-    - intent: informar_idade
-    - action: action_perguntar_sexo
-    - intent: informar_sexo
-    - action: action_perguntar_queixa_principal
-    - intent: relatar_queixa_principal
-    - action: action_perguntar_ansiedade
-    - intent: relatar_ansiedade_generalizada
-    - action: action_perguntar_panico
-    - intent: relatar_crise_de_panico
-    - action: action_perguntar_fobia_social
-    - intent: relatar_fobia_social
-    - action: action_perguntar_sintomas_fisicos
-    - intent: relatar_sintomas_fisicos_ansiedade
-    - action: action_perguntar_sono
-    - intent: relatar_insonia
-    - action: action_perguntar_cognicao
-    - intent: relatar_dificuldade_cognitiva
-    - action: action_perguntar_impacto_trabalho
-    - intent: relatar_impacto_trabalho_estudo
-    - action: action_perguntar_impacto_social
-    - intent: relatar_impacto_social
-    - action: action_perguntar_duracao
-    - intent: informar_duracao_sintomas
-    - action: action_perguntar_intensidade
-    - intent: informar_intensidade_sintomas
-    - action: action_perguntar_fator_desencadeante
-    - intent: informar_fator_desencadeante
-    - action: action_perguntar_tratamento_anterior
-    - intent: informar_tratamento_anterior
-    - action: action_perguntar_medicacao
-    - intent: informar_medicacao_atual
-    - action: action_perguntar_historico_familiar
-    - intent: informar_historico_familiar
-    - action: action_perguntar_ideacao
-    - intent: negar_ideacao_suicida
-    - action: action_encerrar_anamnese
+# - story: anamnese completa - ansiedade com historico
+#   steps:
+#     - intent: iniciar_anamnese
+#     - action: action_perguntar_nome
+#     - intent: informar_nome
+#     - action: action_perguntar_idade
+#     - intent: informar_idade
+#     - action: action_perguntar_sexo
+#     - intent: informar_sexo
+#     - action: action_perguntar_queixa_principal
+#     - intent: relatar_queixa_principal
+#     - action: action_perguntar_ansiedade
+#     - intent: relatar_ansiedade_generalizada
+#     - action: action_perguntar_panico
+#     - intent: relatar_crise_de_panico
+#     - action: action_perguntar_fobia_social
+#     - intent: relatar_fobia_social
+#     - action: action_perguntar_sintomas_fisicos
+#     - intent: relatar_sintomas_fisicos_ansiedade
+#     - action: action_perguntar_sono
+#     - intent: relatar_insonia
+#     - action: action_perguntar_cognicao
+#     - intent: relatar_dificuldade_cognitiva
+#     - action: action_perguntar_impacto_trabalho
+#     - intent: relatar_impacto_trabalho_estudo
+#     - action: action_perguntar_impacto_social
+#     - intent: relatar_impacto_social
+#     - action: action_perguntar_duracao
+#     - intent: informar_duracao_sintomas
+#     - action: action_perguntar_intensidade
+#     - intent: informar_intensidade_sintomas
+#     - action: action_perguntar_fator_desencadeante
+#     - intent: informar_fator_desencadeante
+#     - action: action_perguntar_tratamento_anterior
+#     - intent: informar_tratamento_anterior
+#     - action: action_perguntar_medicacao
+#     - intent: informar_medicacao_atual
+#     - action: action_perguntar_historico_familiar
+#     - intent: informar_historico_familiar
+#     - action: action_perguntar_ideacao
+#     - intent: negar_ideacao_suicida
+#     - action: action_encerrar_anamnese
 
-- story: anamnese - ideacao suicida identificada
-  steps:
-    - intent: iniciar_anamnese
-    - action: action_perguntar_nome
-    - intent: informar_nome
-    - action: action_perguntar_queixa_principal
-    - intent: relatar_queixa_principal
-    - action: action_perguntar_humor
-    - intent: relatar_humor_deprimido
-    - action: action_perguntar_pensamentos
-    - intent: relatar_pensamentos_negativos
-    - action: action_perguntar_ideacao
-    - intent: expressar_ideacao_suicida
-    - action: action_protocolo_risco_suicida
+# - story: anamnese - ideacao suicida identificada
+#   steps:
+#     - intent: iniciar_anamnese
+#     - action: action_perguntar_nome
+#     - intent: informar_nome
+#     - action: action_perguntar_queixa_principal
+#     - intent: relatar_queixa_principal
+#     - action: action_perguntar_humor
+#     - intent: relatar_humor_deprimido
+#     - action: action_perguntar_pensamentos
+#     - intent: relatar_pensamentos_negativos
+#     - action: action_perguntar_ideacao
+#     - intent: expressar_ideacao_suicida
+#     - action: action_protocolo_risco_suicida
 
-- story: ideacao suicida revelada espontaneamente durante anamnese
-  steps:
-    - intent: iniciar_anamnese
-    - action: action_perguntar_queixa_principal
-    - intent: relatar_queixa_principal
-    - action: action_perguntar_humor
-    - intent: expressar_ideacao_suicida
-    - action: action_protocolo_risco_suicida
+# - story: ideacao suicida revelada espontaneamente durante anamnese
+#   steps:
+#     - intent: iniciar_anamnese
+#     - action: action_perguntar_queixa_principal
+#     - intent: relatar_queixa_principal
+#     - action: action_perguntar_humor
+#     - intent: expressar_ideacao_suicida
+#     - action: action_protocolo_risco_suicida
 
-- story: foco em humor deprimido e anedonia
-  steps:
-    - intent: iniciar_anamnese
-    - action: action_perguntar_queixa_principal
-    - intent: relatar_queixa_principal
-    - action: action_perguntar_humor
-    - intent: relatar_humor_deprimido
-    - action: action_perguntar_anedonia
-    - intent: relatar_anedonia
-    - action: action_perguntar_pensamentos
-    - intent: relatar_pensamentos_negativos
-    - action: action_perguntar_duracao
-    - intent: informar_duracao_sintomas
-    - action: action_perguntar_intensidade
-    - intent: informar_intensidade_sintomas
-    - action: action_perguntar_ideacao
-    - intent: negar_ideacao_suicida
-    - action: action_encerrar_anamnese
+# - story: foco em humor deprimido e anedonia
+#   steps:
+#     - intent: iniciar_anamnese
+#     - action: action_perguntar_queixa_principal
+#     - intent: relatar_queixa_principal
+#     - action: action_perguntar_humor
+#     - intent: relatar_humor_deprimido
+#     - action: action_perguntar_anedonia
+#     - intent: relatar_anedonia
+#     - action: action_perguntar_pensamentos
+#     - intent: relatar_pensamentos_negativos
+#     - action: action_perguntar_duracao
+#     - intent: informar_duracao_sintomas
+#     - action: action_perguntar_intensidade
+#     - intent: informar_intensidade_sintomas
+#     - action: action_perguntar_ideacao
+#     - intent: negar_ideacao_suicida
+#     - action: action_encerrar_anamnese
 
-- story: foco em humor deprimido - hipersonia e apetite
-  steps:
-    - intent: iniciar_anamnese
-    - action: action_perguntar_queixa_principal
-    - intent: relatar_queixa_principal
-    - action: action_perguntar_humor
-    - intent: relatar_humor_deprimido
-    - action: action_perguntar_sono
-    - intent: relatar_hipersonia
-    - action: action_perguntar_apetite
-    - intent: relatar_alteracao_apetite
-    - action: action_perguntar_impacto_autocuidado
-    - intent: relatar_impacto_autocuidado
-    - action: action_perguntar_duracao
-    - intent: informar_duracao_sintomas
-    - action: action_perguntar_ideacao
-    - intent: negar_ideacao_suicida
-    - action: action_encerrar_anamnese
+# - story: foco em humor deprimido - hipersonia e apetite
+#   steps:
+#     - intent: iniciar_anamnese
+#     - action: action_perguntar_queixa_principal
+#     - intent: relatar_queixa_principal
+#     - action: action_perguntar_humor
+#     - intent: relatar_humor_deprimido
+#     - action: action_perguntar_sono
+#     - intent: relatar_hipersonia
+#     - action: action_perguntar_apetite
+#     - intent: relatar_alteracao_apetite
+#     - action: action_perguntar_impacto_autocuidado
+#     - intent: relatar_impacto_autocuidado
+#     - action: action_perguntar_duracao
+#     - intent: informar_duracao_sintomas
+#     - action: action_perguntar_ideacao
+#     - intent: negar_ideacao_suicida
+#     - action: action_encerrar_anamnese
 
-- story: foco em ansiedade generalizada
-  steps:
-    - intent: iniciar_anamnese
-    - action: action_perguntar_queixa_principal
-    - intent: relatar_queixa_principal
-    - action: action_perguntar_ansiedade
-    - intent: relatar_ansiedade_generalizada
-    - action: action_perguntar_sintomas_fisicos
-    - intent: relatar_sintomas_fisicos_ansiedade
-    - action: action_perguntar_sono
-    - intent: relatar_insonia
-    - action: action_perguntar_duracao
-    - intent: informar_duracao_sintomas
-    - action: action_perguntar_frequencia
-    - intent: informar_frequencia_sintomas
-    - action: action_perguntar_fator_desencadeante
-    - intent: informar_fator_desencadeante
-    - action: action_perguntar_ideacao
-    - intent: negar_ideacao_suicida
-    - action: action_encerrar_anamnese
+# - story: foco em ansiedade generalizada
+#   steps:
+#     - intent: iniciar_anamnese
+#     - action: action_perguntar_queixa_principal
+#     - intent: relatar_queixa_principal
+#     - action: action_perguntar_ansiedade
+#     - intent: relatar_ansiedade_generalizada
+#     - action: action_perguntar_sintomas_fisicos
+#     - intent: relatar_sintomas_fisicos_ansiedade
+#     - action: action_perguntar_sono
+#     - intent: relatar_insonia
+#     - action: action_perguntar_duracao
+#     - intent: informar_duracao_sintomas
+#     - action: action_perguntar_frequencia
+#     - intent: informar_frequencia_sintomas
+#     - action: action_perguntar_fator_desencadeante
+#     - intent: informar_fator_desencadeante
+#     - action: action_perguntar_ideacao
+#     - intent: negar_ideacao_suicida
+#     - action: action_encerrar_anamnese
 
-- story: foco em pânico e fobia social
-  steps:
-    - intent: iniciar_anamnese
-    - action: action_perguntar_queixa_principal
-    - intent: relatar_queixa_principal
-    - action: action_perguntar_panico
-    - intent: relatar_crise_de_panico
-    - action: action_perguntar_fobia_social
-    - intent: relatar_fobia_social
-    - action: action_perguntar_impacto_social
-    - intent: relatar_impacto_social
-    - action: action_perguntar_duracao
-    - intent: informar_duracao_sintomas
-    - action: action_perguntar_tratamento_anterior
-    - intent: informar_tratamento_anterior
-    - action: action_perguntar_ideacao
-    - intent: negar_ideacao_suicida
-    - action: action_encerrar_anamnese
+# - story: foco em pânico e fobia social
+#   steps:
+#     - intent: iniciar_anamnese
+#     - action: action_perguntar_queixa_principal
+#     - intent: relatar_queixa_principal
+#     - action: action_perguntar_panico
+#     - intent: relatar_crise_de_panico
+#     - action: action_perguntar_fobia_social
+#     - intent: relatar_fobia_social
+#     - action: action_perguntar_impacto_social
+#     - intent: relatar_impacto_social
+#     - action: action_perguntar_duracao
+#     - intent: informar_duracao_sintomas
+#     - action: action_perguntar_tratamento_anterior
+#     - intent: informar_tratamento_anterior
+#     - action: action_perguntar_ideacao
+#     - intent: negar_ideacao_suicida
+#     - action: action_encerrar_anamnese
 
-- story: impacto funcional severo - trabalho e social
-  steps:
-    - intent: iniciar_anamnese
-    - action: action_perguntar_queixa_principal
-    - intent: relatar_queixa_principal
-    - action: action_perguntar_humor
-    - intent: relatar_humor_deprimido
-    - action: action_perguntar_impacto_trabalho
-    - intent: relatar_impacto_trabalho_estudo
-    - action: action_perguntar_impacto_social
-    - intent: relatar_impacto_social
-    - action: action_perguntar_impacto_autocuidado
-    - intent: relatar_impacto_autocuidado
-    - action: action_perguntar_duracao
-    - intent: informar_duracao_sintomas
-    - action: action_perguntar_ideacao
-    - intent: negar_ideacao_suicida
-    - action: action_encerrar_anamnese
+# - story: impacto funcional severo - trabalho e social
+#   steps:
+#     - intent: iniciar_anamnese
+#     - action: action_perguntar_queixa_principal
+#     - intent: relatar_queixa_principal
+#     - action: action_perguntar_humor
+#     - intent: relatar_humor_deprimido
+#     - action: action_perguntar_impacto_trabalho
+#     - intent: relatar_impacto_trabalho_estudo
+#     - action: action_perguntar_impacto_social
+#     - intent: relatar_impacto_social
+#     - action: action_perguntar_impacto_autocuidado
+#     - intent: relatar_impacto_autocuidado
+#     - action: action_perguntar_duracao
+#     - intent: informar_duracao_sintomas
+#     - action: action_perguntar_ideacao
+#     - intent: negar_ideacao_suicida
+#     - action: action_encerrar_anamnese
 
-- story: impacto funcional severo com ideacao
-  steps:
-    - intent: iniciar_anamnese
-    - action: action_perguntar_queixa_principal
-    - intent: relatar_queixa_principal
-    - action: action_perguntar_impacto_trabalho
-    - intent: relatar_impacto_trabalho_estudo
-    - action: action_perguntar_impacto_social
-    - intent: relatar_impacto_social
-    - action: action_perguntar_impacto_autocuidado
-    - intent: relatar_impacto_autocuidado
-    - action: action_perguntar_ideacao
-    - intent: expressar_ideacao_suicida
-    - action: action_protocolo_risco_suicida
+# - story: impacto funcional severo com ideacao
+#   steps:
+#     - intent: iniciar_anamnese
+#     - action: action_perguntar_queixa_principal
+#     - intent: relatar_queixa_principal
+#     - action: action_perguntar_impacto_trabalho
+#     - intent: relatar_impacto_trabalho_estudo
+#     - action: action_perguntar_impacto_social
+#     - intent: relatar_impacto_social
+#     - action: action_perguntar_impacto_autocuidado
+#     - intent: relatar_impacto_autocuidado
+#     - action: action_perguntar_ideacao
+#     - intent: expressar_ideacao_suicida
+#     - action: action_protocolo_risco_suicida
 
-- story: paciente com tratamento anterior e medicacao
-  steps:
-    - intent: iniciar_anamnese
-    - action: action_perguntar_queixa_principal
-    - intent: relatar_queixa_principal
-    - action: action_perguntar_humor
-    - intent: relatar_humor_deprimido
-    - action: action_perguntar_tratamento_anterior
-    - intent: informar_tratamento_anterior
-    - action: action_perguntar_medicacao
-    - intent: informar_medicacao_atual
-    - action: action_perguntar_historico_familiar
-    - intent: informar_historico_familiar
-    - action: action_perguntar_duracao
-    - intent: informar_duracao_sintomas
-    - action: action_perguntar_fator_desencadeante
-    - intent: informar_fator_desencadeante
-    - action: action_perguntar_ideacao
-    - intent: negar_ideacao_suicida
-    - action: action_encerrar_anamnese
+# - story: paciente com tratamento anterior e medicacao
+#   steps:
+#     - intent: iniciar_anamnese
+#     - action: action_perguntar_queixa_principal
+#     - intent: relatar_queixa_principal
+#     - action: action_perguntar_humor
+#     - intent: relatar_humor_deprimido
+#     - action: action_perguntar_tratamento_anterior
+#     - intent: informar_tratamento_anterior
+#     - action: action_perguntar_medicacao
+#     - intent: informar_medicacao_atual
+#     - action: action_perguntar_historico_familiar
+#     - intent: informar_historico_familiar
+#     - action: action_perguntar_duracao
+#     - intent: informar_duracao_sintomas
+#     - action: action_perguntar_fator_desencadeante
+#     - intent: informar_fator_desencadeante
+#     - action: action_perguntar_ideacao
+#     - intent: negar_ideacao_suicida
+#     - action: action_encerrar_anamnese
 
-- story: paciente sem tratamento anterior
-  steps:
-    - intent: iniciar_anamnese
-    - action: action_perguntar_queixa_principal
-    - intent: relatar_queixa_principal
-    - action: action_perguntar_humor
-    - intent: relatar_humor_deprimido
-    - action: action_perguntar_tratamento_anterior
-    - intent: negar
-    - action: action_perguntar_historico_familiar
-    - intent: informar_historico_familiar
-    - action: action_perguntar_duracao
-    - intent: informar_duracao_sintomas
-    - action: action_perguntar_ideacao
-    - intent: negar_ideacao_suicida
-    - action: action_encerrar_anamnese
+# - story: paciente sem tratamento anterior
+#   steps:
+#     - intent: iniciar_anamnese
+#     - action: action_perguntar_queixa_principal
+#     - intent: relatar_queixa_principal
+#     - action: action_perguntar_humor
+#     - intent: relatar_humor_deprimido
+#     - action: action_perguntar_tratamento_anterior
+#     - intent: negar
+#     - action: action_perguntar_historico_familiar
+#     - intent: informar_historico_familiar
+#     - action: action_perguntar_duracao
+#     - intent: informar_duracao_sintomas
+#     - action: action_perguntar_ideacao
+#     - intent: negar_ideacao_suicida
+#     - action: action_encerrar_anamnese
 
-- story: paciente pede para repetir pergunta
-  steps:
-    - intent: iniciar_anamnese
-    - action: action_perguntar_queixa_principal
-    - intent: pedir_para_repetir
-    - action: action_repetir_ultima_pergunta
-    - intent: relatar_queixa_principal
-    - action: action_perguntar_humor
-    - intent: relatar_humor_deprimido
-    - action: action_perguntar_ideacao
-    - intent: negar_ideacao_suicida
-    - action: action_encerrar_anamnese
+# - story: paciente pede para repetir pergunta
+#   steps:
+#     - intent: iniciar_anamnese
+#     - action: action_perguntar_queixa_principal
+#     - intent: pedir_para_repetir
+#     - action: action_repetir_ultima_pergunta
+#     - intent: relatar_queixa_principal
+#     - action: action_perguntar_humor
+#     - intent: relatar_humor_deprimido
+#     - action: action_perguntar_ideacao
+#     - intent: negar_ideacao_suicida
+#     - action: action_encerrar_anamnese
 
-- story: paciente nao sabe responder
-  steps:
-    - intent: iniciar_anamnese
-    - action: action_perguntar_queixa_principal
-    - intent: relatar_queixa_principal
-    - action: action_perguntar_duracao
-    - intent: nao_sabe
-    - action: action_aceitar_indefinido_e_continuar
-    - intent: informar_intensidade_sintomas
-    - action: action_perguntar_frequencia
-    - intent: nao_sabe
-    - action: action_aceitar_indefinido_e_continuar
-    - action: action_perguntar_ideacao
-    - intent: negar_ideacao_suicida
-    - action: action_encerrar_anamnese
+# - story: paciente nao sabe responder
+#   steps:
+#     - intent: iniciar_anamnese
+#     - action: action_perguntar_queixa_principal
+#     - intent: relatar_queixa_principal
+#     - action: action_perguntar_duracao
+#     - intent: nao_sabe
+#     - action: action_aceitar_indefinido_e_continuar
+#     - intent: informar_intensidade_sintomas
+#     - action: action_perguntar_frequencia
+#     - intent: nao_sabe
+#     - action: action_aceitar_indefinido_e_continuar
+#     - action: action_perguntar_ideacao
+#     - intent: negar_ideacao_suicida
+#     - action: action_encerrar_anamnese
 
-- story: encerramento antecipado pelo paciente
-  steps:
-    - intent: iniciar_anamnese
-    - action: action_perguntar_queixa_principal
-    - intent: relatar_queixa_principal
-    - action: action_perguntar_humor
-    - intent: relatar_humor_deprimido
-    - action: action_perguntar_sono
-    - intent: encerrar_anamnese
-    - action: action_encerrar_anamnese
+# - story: encerramento antecipado pelo paciente
+#   steps:
+#     - intent: iniciar_anamnese
+#     - action: action_perguntar_queixa_principal
+#     - intent: relatar_queixa_principal
+#     - action: action_perguntar_humor
+#     - intent: relatar_humor_deprimido
+#     - action: action_perguntar_sono
+#     - intent: encerrar_anamnese
+#     - action: action_encerrar_anamnese
