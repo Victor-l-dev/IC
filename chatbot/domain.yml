@@ -120,7 +120,6 @@ slots:
 
 responses:
 
-  # ── ABERTURA ──────────────────────────────────────────────────
   utter_boas_vindas:
     - text: "Olá. Vou fazer algumas perguntas para registrar seu histórico. Podemos começar?"
 
@@ -133,7 +132,6 @@ responses:
   utter_transicao_bloco:
     - text: "Agora vou fazer algumas perguntas sobre como isso está afetando sua rotina."
 
-  # ── IDENTIFICAÇÃO ─────────────────────────────────────────────
   utter_perguntar_nome:
     - text: "Qual é o seu nome?"
 
@@ -143,11 +141,9 @@ responses:
   utter_perguntar_sexo:
     - text: "Como você se identifica? Masculino, feminino ou prefere não dizer?"
 
-  # ── QUEIXA PRINCIPAL ─────────────────────────────────────────
   utter_perguntar_queixa_principal:
     - text: "Qual é o principal problema ou sintoma que te trouxe aqui hoje?"
 
-  # ── HUMOR / DEPRESSÃO ────────────────────────────────────────
   utter_perguntar_humor:
     - text: "Como você descreveria seu humor nas últimas semanas? Tem se sentido triste, vazio ou sem ânimo?"
 
@@ -157,7 +153,6 @@ responses:
   utter_perguntar_pensamentos:
     - text: "Você tem tido pensamentos negativos sobre si mesmo, como se sentir inútil, um peso ou sem valor?"
 
-  # ── ANSIEDADE ────────────────────────────────────────────────
   utter_perguntar_ansiedade:
     - text: "Você se preocupa muito com as coisas, mesmo sem um motivo claro? Sente dificuldade de relaxar?"
 
@@ -170,19 +165,15 @@ responses:
   utter_perguntar_sintomas_fisicos:
     - text: "Você sente sintomas físicos quando está ansioso, como tremor, aperto no peito, tontura ou falta de ar?"
 
-  # ── SONO ─────────────────────────────────────────────────────
   utter_perguntar_sono:
     - text: "Como está seu sono? Tem dificuldade para dormir, acorda muito durante a noite ou dorme mais do que o normal?"
 
-  # ── APETITE ──────────────────────────────────────────────────
   utter_perguntar_apetite:
     - text: "Seu apetite mudou? Está comendo menos, mais, ou não sente fome?"
 
-  # ── COGNIÇÃO ─────────────────────────────────────────────────
   utter_perguntar_cognicao:
     - text: "Tem tido dificuldade para se concentrar, tomar decisões ou sua memória está falhando?"
 
-  # ── IMPACTO FUNCIONAL ────────────────────────────────────────
   utter_perguntar_impacto_trabalho:
     - text: "Esses problemas estão afetando seu trabalho ou estudos? Como?"
 
@@ -192,7 +183,6 @@ responses:
   utter_perguntar_impacto_autocuidado:
     - text: "Você tem conseguido se cuidar normalmente, como higiene, alimentação e tarefas básicas do dia a dia?"
 
-  # ── HISTÓRICO DOS SINTOMAS ───────────────────────────────────
   utter_perguntar_duracao:
     - text: "Há quanto tempo você está se sentindo assim?"
 
@@ -205,7 +195,6 @@ responses:
   utter_perguntar_fator_desencadeante:
     - text: "Você consegue identificar algum evento ou situação que desencadeou esses sintomas?"
 
-  # ── TRATAMENTO E HISTÓRICO ───────────────────────────────────
   utter_perguntar_tratamento_anterior:
     - text: "Você já fez algum tratamento psicológico ou psiquiátrico anteriormente?"
 
@@ -215,7 +204,6 @@ responses:
   utter_perguntar_historico_familiar:
     - text: "Há histórico de transtornos mentais na sua família, como depressão, ansiedade ou outros?"
 
-  # ── TRIAGEM DE RISCO ─────────────────────────────────────────
   utter_perguntar_ideacao:
     - text: "Você já teve ou tem pensamentos de se machucar ou de que seria melhor não estar aqui?"
 
@@ -225,7 +213,6 @@ responses:
   utter_risco_suicida_registrado:
     - text: "A informação foi registrada. O profissional responsável será notificado."
 
-  # ── RESPOSTAS GENÉRICAS ──────────────────────────────────────
   utter_aceitar_indefinido:
     - text: "Tudo bem, sem problema. Vamos continuar."
 
@@ -250,7 +237,6 @@ responses:
   utter_com_historico_familiar:
     - text: "Anotado. O histórico familiar será considerado na avaliação."
 
-  # ── ENCERRAMENTO ─────────────────────────────────────────────
   utter_encerrar_anamnese:
     - text: "Obrigado pelas respostas. As informações foram registradas e estarão disponíveis para o profissional responsável."
 
