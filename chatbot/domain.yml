@@ -10,7 +10,7 @@ intents:
   - relatar_anedonia
   - relatar_pensamentos_negativos
   - relatar_ansiedade_generalizada
-  - relatar_crise_de_panico
+  # - relatar_crise_de_panico
   - relatar_fobia_social
   - relatar_sintomas_fisicos_ansiedade
   - relatar_insonia

@@ -122,18 +122,18 @@ nlu:
     - minha mente fica acelerada
     - não consigo parar de ruminar
 
-- intent: relatar_crise_de_panico
-  examples: |
-    - tive uma crise de pânico
-    - senti que ia morrer de repente
-    - meu coração disparou do nada
-    - senti falta de ar de repente
-    - tive tontura e achei que ia desmaiar
-    - senti formigamento no corpo durante a crise
-    - fiquei com medo de enlouquecer
-    - tive tremores e suor frio
-    - meu peito apertou de repente
-    - senti que estava saindo do meu corpo
+# - intent: relatar_crise_de_panico
+#   examples: |
+#     - tive uma crise de pânico
+#     - senti que ia morrer de repente
+#     - meu coração disparou do nada
+#     - senti falta de ar de repente
+#     - tive tontura e achei que ia desmaiar
+#     - senti formigamento no corpo durante a crise
+#     - fiquei com medo de enlouquecer
+#     - tive tremores e suor frio
+#     - meu peito apertou de repente
+#     - senti que estava saindo do meu corpo
 
 - intent: relatar_fobia_social
   examples: |

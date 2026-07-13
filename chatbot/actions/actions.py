@@ -4,10 +4,12 @@ from rasa_sdk.executor import CollectingDispatcher
 from rasa_sdk.events import SlotSet
 
 
+# Reserva um slot para guardar a ultima pergunta, para não ficar repetindo a mesma pergunta
 def salvar_ultima_pergunta(texto: str):
     return SlotSet("ultima_pergunta", texto)
 
 
+# Credenciais (sem persistência) para o fluxo de anamnese
 
 class ActionPerguntarNome(Action):
     def name(self) -> Text:
@@ -18,7 +20,7 @@ class ActionPerguntarNome(Action):
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
         texto = "Qual é o seu nome?"
         dispatcher.utter_message(text=texto)
-        return [salvar_ultima_pergunta(texto)]
+        return [salvar_ultima_pergunta(texto), SlotSet("etapa_atual", self.name())]
 
 
 class ActionPerguntarIdade(Action):
@@ -31,7 +33,7 @@ class ActionPerguntarIdade(Action):
         nome = tracker.get_slot("nome") or "você"
         texto = f"Quantos anos você tem, {nome}?"
         dispatcher.utter_message(text=texto)
-        return [salvar_ultima_pergunta(texto)]
+        return [salvar_ultima_pergunta(texto), SlotSet("etapa_atual", self.name())]
 
 
 class ActionPerguntarSexo(Action):
@@ -43,8 +45,9 @@ class ActionPerguntarSexo(Action):
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
         texto = "Como você se identifica? Masculino, feminino ou prefere não dizer?"
         dispatcher.utter_message(text=texto)
-        return [salvar_ultima_pergunta(texto)]
+        return [salvar_ultima_pergunta(texto), SlotSet("etapa_atual", self.name())]
 
+#------
 
 class ActionPerguntarQueixaPrincipal(Action):
     def name(self) -> Text:
@@ -55,7 +58,7 @@ class ActionPerguntarQueixaPrincipal(Action):
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
         texto = "Qual é o principal problema ou sintoma que te trouxe aqui hoje?"
         dispatcher.utter_message(text=texto)
-        return [salvar_ultima_pergunta(texto)]
+        return [salvar_ultima_pergunta(texto), SlotSet("etapa_atual", self.name())]
 
 
 class ActionFalarSobreOProblema(Action):
@@ -68,7 +71,7 @@ class ActionFalarSobreOProblema(Action):
         problema = tracker.get_slot("problema") or "esse problema"
         texto = f"Pode me contar mais sobre {problema}? Há quanto tempo você está lidando com isso?"
         dispatcher.utter_message(text=texto)
-        return [salvar_ultima_pergunta(texto)]
+        return [salvar_ultima_pergunta(texto), SlotSet("etapa_atual", self.name())]
 
 class ActionPerguntarHumor(Action):
     def name(self) -> Text:
@@ -79,7 +82,7 @@ class ActionPerguntarHumor(Action):
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
         texto = "Como você descreveria seu humor nas últimas semanas? Tem se sentido triste, vazio ou sem ânimo?"
         dispatcher.utter_message(text=texto)
-        return [salvar_ultima_pergunta(texto)]
+        return [salvar_ultima_pergunta(texto), SlotSet("etapa_atual", self.name())]
 
 
 class ActionPerguntarAnedonia(Action):
@@ -91,7 +94,7 @@ class ActionPerguntarAnedonia(Action):
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
         texto = "Você ainda sente prazer nas coisas que costumava gostar, como hobbies, amigos ou atividades do dia a dia?"
         dispatcher.utter_message(text=texto)
-        return [salvar_ultima_pergunta(texto)]
+        return [salvar_ultima_pergunta(texto), SlotSet("etapa_atual", self.name())]
 
 
 class ActionPerguntarPensamentos(Action):
@@ -103,7 +106,7 @@ class ActionPerguntarPensamentos(Action):
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
         texto = "Você tem tido pensamentos negativos sobre si mesmo, como se sentir inútil, um peso ou sem valor?"
         dispatcher.utter_message(text=texto)
-        return [salvar_ultima_pergunta(texto)]
+        return [salvar_ultima_pergunta(texto), SlotSet("etapa_atual", self.name())]
 
 class ActionPerguntarAnsiedade(Action):
     def name(self) -> Text:
@@ -114,19 +117,19 @@ class ActionPerguntarAnsiedade(Action):
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
         texto = "Você se preocupa muito com as coisas, mesmo sem um motivo claro? Sente dificuldade de relaxar?"
         dispatcher.utter_message(text=texto)
-        return [salvar_ultima_pergunta(texto)]
+        return [salvar_ultima_pergunta(texto), SlotSet("etapa_atual", self.name())]
 
 
-class ActionPerguntarPanico(Action):
-    def name(self) -> Text:
-        return "action_perguntar_panico"
+# class ActionPerguntarPanico(Action):
+#     def name(self) -> Text:
+#         return "action_perguntar_panico"
 
-    def run(self, dispatcher: CollectingDispatcher,
-            tracker: Tracker,
-            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
-        texto = "Já teve episódios de crise intensa, com coração acelerado, falta de ar ou sensação de que algo ruim ia acontecer?"
-        dispatcher.utter_message(text=texto)
-        return [salvar_ultima_pergunta(texto)]
+#     def run(self, dispatcher: CollectingDispatcher,
+#             tracker: Tracker,
+#             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+#         texto = "Já teve episódios de crise intensa, com coração acelerado, falta de ar ou sensação de que algo ruim ia acontecer?"
+#         dispatcher.utter_message(text=texto)
+#         return [salvar_ultima_pergunta(texto), SlotSet("etapa_atual", self.name())]
 
 
 class ActionPerguntarFobiaSocial(Action):
@@ -138,7 +141,7 @@ class ActionPerguntarFobiaSocial(Action):
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
         texto = "Situações sociais te causam ansiedade ou você tende a evitá-las?"
         dispatcher.utter_message(text=texto)
-        return [salvar_ultima_pergunta(texto)]
+        return [salvar_ultima_pergunta(texto), SlotSet("etapa_atual", self.name())]
 
 
 class ActionPerguntarSintomasFisicos(Action):
@@ -150,12 +153,7 @@ class ActionPerguntarSintomasFisicos(Action):
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
         texto = "Você sente sintomas físicos quando está ansioso, como tremor, aperto no peito, tontura ou falta de ar?"
         dispatcher.utter_message(text=texto)
-        return [salvar_ultima_pergunta(texto)]
-
-
-# ─────────────────────────────────────────────────────────────────────────────
-# SONO
-# ─────────────────────────────────────────────────────────────────────────────
+        return [salvar_ultima_pergunta(texto), SlotSet("etapa_atual", self.name())]
 
 class ActionPerguntarSono(Action):
     def name(self) -> Text:
@@ -166,12 +164,7 @@ class ActionPerguntarSono(Action):
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
         texto = "Como está seu sono? Tem dificuldade para dormir, acorda muito durante a noite ou dorme mais do que o normal?"
         dispatcher.utter_message(text=texto)
-        return [salvar_ultima_pergunta(texto)]
-
-
-# ─────────────────────────────────────────────────────────────────────────────
-# APETITE
-# ─────────────────────────────────────────────────────────────────────────────
+        return [salvar_ultima_pergunta(texto), SlotSet("etapa_atual", self.name())]
 
 class ActionPerguntarApetite(Action):
     def name(self) -> Text:
@@ -182,12 +175,7 @@ class ActionPerguntarApetite(Action):
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
         texto = "Seu apetite mudou? Está comendo menos, mais, ou não sente fome?"
         dispatcher.utter_message(text=texto)
-        return [salvar_ultima_pergunta(texto)]
-
-
-# ─────────────────────────────────────────────────────────────────────────────
-# COGNIÇÃO
-# ─────────────────────────────────────────────────────────────────────────────
+        return [salvar_ultima_pergunta(texto), SlotSet("etapa_atual", self.name())]
 
 class ActionPerguntarCognicao(Action):
     def name(self) -> Text:
@@ -198,12 +186,7 @@ class ActionPerguntarCognicao(Action):
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
         texto = "Tem tido dificuldade para se concentrar, tomar decisões ou sua memória está falhando?"
         dispatcher.utter_message(text=texto)
-        return [salvar_ultima_pergunta(texto)]
-
-
-# ─────────────────────────────────────────────────────────────────────────────
-# IMPACTO FUNCIONAL
-# ─────────────────────────────────────────────────────────────────────────────
+        return [salvar_ultima_pergunta(texto), SlotSet("etapa_atual", self.name())]
 
 class ActionPerguntarImpactoTrabalho(Action):
     def name(self) -> Text:
@@ -214,7 +197,7 @@ class ActionPerguntarImpactoTrabalho(Action):
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
         texto = "Esses problemas estão afetando seu trabalho ou estudos? Como?"
         dispatcher.utter_message(text=texto)
-        return [salvar_ultima_pergunta(texto)]
+        return [salvar_ultima_pergunta(texto), SlotSet("etapa_atual", self.name())]
 
 
 class ActionPerguntarImpactoSocial(Action):
@@ -226,7 +209,7 @@ class ActionPerguntarImpactoSocial(Action):
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
         texto = "Você tem se afastado de amigos ou familiares por causa de como está se sentindo?"
         dispatcher.utter_message(text=texto)
-        return [salvar_ultima_pergunta(texto)]
+        return [salvar_ultima_pergunta(texto), SlotSet("etapa_atual", self.name())]
 
 
 class ActionPerguntarImpactoAutocuidado(Action):
@@ -238,12 +221,7 @@ class ActionPerguntarImpactoAutocuidado(Action):
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
         texto = "Você tem conseguido se cuidar normalmente, como higiene, alimentação e tarefas básicas do dia a dia?"
         dispatcher.utter_message(text=texto)
-        return [salvar_ultima_pergunta(texto)]
-
-
-# ─────────────────────────────────────────────────────────────────────────────
-# HISTÓRICO DOS SINTOMAS
-# ─────────────────────────────────────────────────────────────────────────────
+        return [salvar_ultima_pergunta(texto), SlotSet("etapa_atual", self.name())]
 
 class ActionPerguntarDuracao(Action):
     def name(self) -> Text:
@@ -254,7 +232,7 @@ class ActionPerguntarDuracao(Action):
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
         texto = "Há quanto tempo você está se sentindo assim?"
         dispatcher.utter_message(text=texto)
-        return [salvar_ultima_pergunta(texto)]
+        return [salvar_ultima_pergunta(texto), SlotSet("etapa_atual", self.name())]
 
 
 class ActionPerguntarIntensidade(Action):
@@ -266,7 +244,7 @@ class ActionPerguntarIntensidade(Action):
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
         texto = "Como você avaliaria a intensidade do que sente? Numa escala de 1 a 10, qual seria?"
         dispatcher.utter_message(text=texto)
-        return [salvar_ultima_pergunta(texto)]
+        return [salvar_ultima_pergunta(texto), SlotSet("etapa_atual", self.name())]
 
 
 class ActionPerguntarFrequencia(Action):
@@ -278,7 +256,7 @@ class ActionPerguntarFrequencia(Action):
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
         texto = "Com que frequência esses sintomas aparecem? Todo dia, algumas vezes por semana ou de forma esporádica?"
         dispatcher.utter_message(text=texto)
-        return [salvar_ultima_pergunta(texto)]
+        return [salvar_ultima_pergunta(texto), SlotSet("etapa_atual", self.name())]
 
 
 class ActionPerguntarFatorDesencadeante(Action):
@@ -290,12 +268,8 @@ class ActionPerguntarFatorDesencadeante(Action):
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
         texto = "Você consegue identificar algum evento ou situação que desencadeou esses sintomas?"
         dispatcher.utter_message(text=texto)
-        return [salvar_ultima_pergunta(texto)]
+        return [salvar_ultima_pergunta(texto), SlotSet("etapa_atual", self.name())]
 
-
-# ─────────────────────────────────────────────────────────────────────────────
-# TRATAMENTO E HISTÓRICO
-# ─────────────────────────────────────────────────────────────────────────────
 
 class ActionPerguntarTratamentoAnterior(Action):
     def name(self) -> Text:
@@ -306,7 +280,7 @@ class ActionPerguntarTratamentoAnterior(Action):
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
         texto = "Você já fez algum tratamento psicológico ou psiquiátrico anteriormente?"
         dispatcher.utter_message(text=texto)
-        return [salvar_ultima_pergunta(texto)]
+        return [salvar_ultima_pergunta(texto), SlotSet("etapa_atual", self.name())]
 
 
 class ActionPerguntarMedicacao(Action):
@@ -318,7 +292,7 @@ class ActionPerguntarMedicacao(Action):
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
         texto = "Você está tomando alguma medicação atualmente, seja prescrita ou não?"
         dispatcher.utter_message(text=texto)
-        return [salvar_ultima_pergunta(texto)]
+        return [salvar_ultima_pergunta(texto), SlotSet("etapa_atual", self.name())]
 
 
 class ActionPerguntarHistoricoFamiliar(Action):
@@ -330,12 +304,8 @@ class ActionPerguntarHistoricoFamiliar(Action):
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
         texto = "Há histórico de transtornos mentais na sua família, como depressão, ansiedade ou outros?"
         dispatcher.utter_message(text=texto)
-        return [salvar_ultima_pergunta(texto)]
+        return [salvar_ultima_pergunta(texto), SlotSet("etapa_atual", self.name())]
 
-
-# ─────────────────────────────────────────────────────────────────────────────
-# TRIAGEM DE RISCO
-# ─────────────────────────────────────────────────────────────────────────────
 
 class ActionPerguntarIdeacao(Action):
     def name(self) -> Text:
@@ -346,7 +316,7 @@ class ActionPerguntarIdeacao(Action):
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
         texto = "Você já teve ou tem pensamentos de se machucar ou de que seria melhor não estar aqui?"
         dispatcher.utter_message(text=texto)
-        return [salvar_ultima_pergunta(texto)]
+        return [salvar_ultima_pergunta(texto), SlotSet("etapa_atual", self.name())]
 
 
 class ActionProtocoloRiscoSuicida(Action):
@@ -376,11 +346,6 @@ class ActionProtocoloRiscoSuicida(Action):
             SlotSet("anamnese_encerrada", True),
         ]
 
-
-# ─────────────────────────────────────────────────────────────────────────────
-# UTILITÁRIOS
-# ─────────────────────────────────────────────────────────────────────────────
-
 class ActionRepetirUltimaPergunta(Action):
     def name(self) -> Text:
         return "action_repetir_ultima_pergunta"
@@ -405,11 +370,6 @@ class ActionAceitarIndefinidoEContinuar(Action):
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
         dispatcher.utter_message(text="Tudo bem, sem problema. Vamos continuar.")
         return []
-
-
-# ─────────────────────────────────────────────────────────────────────────────
-# ENCERRAMENTO
-# ─────────────────────────────────────────────────────────────────────────────
 
 class ActionEncerrarAnamnese(Action):
     def name(self) -> Text:
