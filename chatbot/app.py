@@ -5,6 +5,7 @@ import html
 from datetime import datetime
 
 RASA_URL = "http://localhost:5005/webhooks/rest/webhook"
+RASA_TRACKER_URL = "http://localhost:5005/conversations/{sender}/tracker"
 
 st.set_page_config(
     page_title="Anamnese — Saúde Mental",
@@ -209,6 +210,28 @@ for key, default in [
         st.session_state[key] = default
 
 
+def sincronizar_slots():
+    """Busca os slots reais da conversa direto do Rasa e atualiza st.session_state.slots."""
+    try:
+        resp = requests.get(
+            RASA_TRACKER_URL.format(sender=st.session_state.session_id),
+            timeout=10,
+        )
+        resp.raise_for_status()
+        slots_rasa = resp.json().get("slots", {})
+
+        # Ignora slots internos de controle de fluxo, não são pra mostrar no painel
+        ignorar = {"ultima_pergunta", "etapa_atual", "anamnese_encerrada", "session_started_metadata"}
+        for chave, valor in slots_rasa.items():
+            if chave in ignorar:
+                continue
+            if valor is not None:
+                st.session_state.slots[chave] = valor
+    except Exception:
+        # Se o tracker não responder, mantém o que já tinha em session_state (não quebra a UI)
+        pass
+
+
 def enviar_para_rasa(mensagem: str) -> list[str]:
     try:
         resp = requests.post(
@@ -295,6 +318,7 @@ else:
 if not st.session_state.iniciada:
     respostas = enviar_para_rasa("quero começar")
     processar_respostas_bot(respostas)
+    sincronizar_slots()
     st.session_state.iniciada = True
 
 renderizar_mensagens()
@@ -311,6 +335,7 @@ if not st.session_state.encerrada:
 
         respostas = enviar_para_rasa(texto)
         processar_respostas_bot(respostas)
+        sincronizar_slots()
         st.rerun()
 else:
     st.info("A anamnese foi encerrada. Use o botão abaixo para iniciar uma nova sessão.")
