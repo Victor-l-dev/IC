@@ -10,11 +10,10 @@ intents:
   - relatar_anedonia
   - relatar_pensamentos_negativos
   - relatar_ansiedade_generalizada
-  # - relatar_crise_de_panico
+  - relatar_crise_de_panico
   - relatar_fobia_social
   - relatar_sintomas_fisicos_ansiedade
-  - relatar_insonia
-  - relatar_hipersonia
+  - relatar_problema_sono
   - relatar_alteracao_apetite
   - relatar_dificuldade_cognitiva
   - informar_duracao_sintomas
@@ -112,6 +111,11 @@ slots:
     mappings:
       - type: custom
 
+  etapa_atual:
+    type: text
+    mappings:
+      - type: custom
+
   anamnese_encerrada:
     type: bool
     initial_value: false
@@ -119,6 +123,8 @@ slots:
       - type: custom
 
 responses:
+  utter_default:
+    - text: "Desculpe, não entendi bem. Pode reformular ou tentar de novo?"
 
   utter_boas_vindas:
     - text: "Olá. Vou fazer algumas perguntas para registrar seu histórico. Podemos começar?"
@@ -267,6 +273,7 @@ actions:
   - action_perguntar_fator_desencadeante
   - action_perguntar_tratamento_anterior
   - action_perguntar_medicacao
+  - action_processar_resposta_generica
   - action_perguntar_historico_familiar
   - action_perguntar_ideacao
   - action_protocolo_risco_suicida

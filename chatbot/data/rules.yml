@@ -37,14 +37,9 @@ rules:
     - intent: relatar_anedonia
     - action: action_perguntar_pensamentos
 
-- rule: apos pensamentos negativos - pedir sono
+- rule: apos pensamentos negativos - pedir apetite
   steps:
     - intent: relatar_pensamentos_negativos
-    - action: action_perguntar_sono
-
-- rule: apos insonia - pedir apetite
-  steps:
-    - intent: relatar_insonia
     - action: action_perguntar_apetite
 
 - rule: apos alteracao apetite - pedir cognicao
