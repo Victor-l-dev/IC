@@ -1,0 +1,41 @@
+{
+  "lookup": {
+    "rules": {
+      "[{\"prev_action\": {\"action_name\": \"action_listen\"}, \"user\": {\"intent\": \"afirmar_ideacao\"}}]": "action_protocolo_risco_suicida",
+      "[{\"prev_action\": {\"action_name\": \"action_listen\"}, \"user\": {\"intent\": \"afirmar_ideacao\"}}, {\"prev_action\": {\"action_name\": \"action_protocolo_risco_suicida\"}, \"user\": {\"intent\": \"afirmar_ideacao\"}}]": "action_encerrar_anamnese",
+      "[{\"prev_action\": {\"action_name\": \"action_listen\"}, \"user\": {\"intent\": \"afirmar_ideacao\"}}, {\"prev_action\": {\"action_name\": \"action_protocolo_risco_suicida\"}, \"user\": {\"intent\": \"afirmar_ideacao\"}}, {\"prev_action\": {\"action_name\": \"action_encerrar_anamnese\"}, \"user\": {\"intent\": \"afirmar_ideacao\"}}]": "action_listen",
+      "[{\"active_loop\": {\"name\": \"should_not_be_set\"}, \"prev_action\": {\"action_name\": \"identificacao_form\"}}]": "action_iniciar_questionario",
+      "[{\"active_loop\": {\"name\": \"should_not_be_set\"}, \"prev_action\": {\"action_name\": \"identificacao_form\"}}, {\"active_loop\": {\"name\": \"should_not_be_set\"}, \"prev_action\": {\"action_name\": \"action_iniciar_questionario\"}}]": "action_listen",
+      "[{\"prev_action\": {\"action_name\": \"action_listen\"}, \"user\": {\"intent\": \"responder_escala\"}}]": "action_registrar_resposta",
+      "[{\"prev_action\": {\"action_name\": \"action_listen\"}, \"user\": {\"intent\": \"responder_escala\"}}, {\"prev_action\": {\"action_name\": \"action_registrar_resposta\"}, \"user\": {\"intent\": \"responder_escala\"}}]": "action_listen",
+      "[{\"prev_action\": {\"action_name\": \"action_listen\"}, \"user\": {\"intent\": \"negar_ideacao\"}}]": "action_encerrar_anamnese",
+      "[{\"prev_action\": {\"action_name\": \"action_listen\"}, \"user\": {\"intent\": \"negar_ideacao\"}}, {\"prev_action\": {\"action_name\": \"action_encerrar_anamnese\"}, \"user\": {\"intent\": \"negar_ideacao\"}}]": "action_listen",
+      "[{\"prev_action\": {\"action_name\": \"action_listen\"}, \"user\": {\"intent\": \"iniciar_anamnese\"}}]": "identificacao_form",
+      "[{\"prev_action\": {\"action_name\": \"action_listen\"}, \"user\": {\"intent\": \"iniciar_anamnese\"}}, {\"active_loop\": {\"name\": \"identificacao_form\"}, \"prev_action\": {\"action_name\": \"identificacao_form\"}, \"user\": {\"intent\": \"iniciar_anamnese\"}}]": "action_listen"
+    },
+    "rule_only_slots": [],
+    "rule_only_loops": [
+      "identificacao_form"
+    ],
+    "rules_for_loop_unhappy_path": {
+      "[{\"prev_action\": {\"action_name\": \"action_listen\"}}, {\"active_loop\": {\"name\": \"identificacao_form\"}, \"prev_action\": {\"action_name\": \"identificacao_form\"}, \"user\": {\"intent\": \"iniciar_anamnese\"}}]": "do_not_predict_loop_action"
+    },
+    "rules_not_in_stories": [
+      "[{\"prev_action\": {\"action_name\": \"action_listen\"}, \"user\": {\"intent\": \"responder_escala\"}}, {\"prev_action\": {\"action_name\": \"action_registrar_resposta\"}, \"user\": {\"intent\": \"responder_escala\"}}]",
+      "[{\"active_loop\": {\"name\": \"should_not_be_set\"}, \"prev_action\": {\"action_name\": \"identificacao_form\"}}, {\"active_loop\": {\"name\": \"should_not_be_set\"}, \"prev_action\": {\"action_name\": \"action_iniciar_questionario\"}}]",
+      "[{\"prev_action\": {\"action_name\": \"action_listen\"}, \"user\": {\"intent\": \"responder_escala\"}}]",
+      "predicting default action with intent back",
+      "handling active loops and forms - identificacao_form - action_listen",
+      "[{\"prev_action\": {\"action_name\": \"action_listen\"}, \"user\": {\"intent\": \"negar_ideacao\"}}, {\"prev_action\": {\"action_name\": \"action_encerrar_anamnese\"}, \"user\": {\"intent\": \"negar_ideacao\"}}]",
+      "[{\"prev_action\": {\"action_name\": \"action_listen\"}, \"user\": {\"intent\": \"afirmar_ideacao\"}}, {\"prev_action\": {\"action_name\": \"action_protocolo_risco_suicida\"}, \"user\": {\"intent\": \"afirmar_ideacao\"}}]",
+      "[{\"active_loop\": {\"name\": \"should_not_be_set\"}, \"prev_action\": {\"action_name\": \"identificacao_form\"}}]",
+      "[{\"prev_action\": {\"action_name\": \"action_listen\"}, \"user\": {\"intent\": \"afirmar_ideacao\"}}]",
+      "[{\"prev_action\": {\"action_name\": \"action_listen\"}, \"user\": {\"intent\": \"negar_ideacao\"}}]",
+      "predicting default action with intent restart",
+      "predicting default action with intent session_start",
+      "[{\"prev_action\": {\"action_name\": \"action_listen\"}, \"user\": {\"intent\": \"afirmar_ideacao\"}}, {\"prev_action\": {\"action_name\": \"action_protocolo_risco_suicida\"}, \"user\": {\"intent\": \"afirmar_ideacao\"}}, {\"prev_action\": {\"action_name\": \"action_encerrar_anamnese\"}, \"user\": {\"intent\": \"afirmar_ideacao\"}}]",
+      "[{\"prev_action\": {\"action_name\": \"action_listen\"}, \"user\": {\"intent\": \"iniciar_anamnese\"}}]",
+      "handling active loops and forms - identificacao_form"
+    ]
+  }
+}

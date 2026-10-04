@@ -2,283 +2,111 @@ version: "3.1"
 
 intents:
   - iniciar_anamnese
-  - informar_nome
-  - informar_idade
-  - informar_sexo
-  - relatar_queixa_principal
-  - relatar_humor_deprimido
-  - relatar_anedonia
-  - relatar_pensamentos_negativos
-  - relatar_ansiedade_generalizada
-  - relatar_crise_de_panico
-  - relatar_fobia_social
-  - relatar_sintomas_fisicos_ansiedade
-  - relatar_problema_sono
-  - relatar_alteracao_apetite
-  - relatar_dificuldade_cognitiva
-  - informar_duracao_sintomas
-  - informar_intensidade_sintomas
-  - informar_frequencia_sintomas
-  - informar_fator_desencadeante
-  - informar_tratamento_anterior
-  - informar_medicacao_atual
-  - informar_historico_familiar
-  - relatar_impacto_trabalho_estudo
-  - relatar_impacto_social
-  - relatar_impacto_autocuidado
-  - expressar_ideacao_suicida
-  - negar_ideacao_suicida
-  - confirmar
-  - negar
-  - nao_sabe
-  - pedir_para_repetir
-  - encerrar_anamnese
+  - informar_dado
+  - responder_escala
+  - afirmar_ideacao
+  - negar_ideacao
 
 entities:
-  - nome
-  - idade
-  - queixa
-  - duracao
-  - intensidade
-  - medicacao
-  - problema
+  - valor
 
 slots:
   nome:
     type: text
+    influence_conversation: false
     mappings:
-      - type: from_entity
-        entity: nome
+      - type: from_text
+        conditions:
+          - active_loop: identificacao_form
+            requested_slot: nome
 
   idade:
     type: text
+    influence_conversation: false
     mappings:
-      - type: from_entity
-        entity: idade
+      - type: from_text
+        conditions:
+          - active_loop: identificacao_form
+            requested_slot: idade
 
   sexo:
     type: text
+    influence_conversation: false
     mappings:
       - type: from_text
-        intent: informar_sexo
+        conditions:
+          - active_loop: identificacao_form
+            requested_slot: sexo
 
-  queixa_principal:
-    type: text
-    mappings:
-      - type: from_entity
-        entity: queixa
-
-  duracao_sintomas:
-    type: text
-    mappings:
-      - type: from_entity
-        entity: duracao
-
-  intensidade_sintomas:
-    type: text
-    mappings:
-      - type: from_entity
-        entity: intensidade
-
-  medicacao_atual:
-    type: text
-    mappings:
-      - type: from_entity
-        entity: medicacao
-
-  tem_ideacao_suicida:
-    type: bool
-    mappings:
-      - type: from_intent
-        intent: expressar_ideacao_suicida
-        value: true
-      - type: from_intent
-        intent: negar_ideacao_suicida
-        value: false
-
-  tem_tratamento_anterior:
-    type: bool
-    mappings:
-      - type: from_intent
-        intent: confirmar
-        value: true
-      - type: from_intent
-        intent: negar
-        value: false
-
-  ultima_pergunta:
-    type: text
+  indice_pergunta:
+    type: float
+    influence_conversation: false
     mappings:
       - type: custom
 
-  etapa_atual:
-    type: text
+  score_ansiedade:
+    type: float
+    influence_conversation: false
+    mappings:
+      - type: custom
+
+  score_depressao:
+    type: float
+    influence_conversation: false
+    mappings:
+      - type: custom
+
+  respostas:
+    type: list
+    influence_conversation: false
+    mappings:
+      - type: custom
+
+  tem_ideacao_suicida:
+    type: bool
+    influence_conversation: false
     mappings:
       - type: custom
 
   anamnese_encerrada:
     type: bool
     initial_value: false
+    influence_conversation: false
     mappings:
       - type: custom
+
+forms:
+  identificacao_form:
+    required_slots:
+      - nome
+      - idade
+      - sexo
 
 responses:
   utter_default:
     - text: "Desculpe, não entendi bem. Pode reformular ou tentar de novo?"
 
-  utter_boas_vindas:
-    - text: "Olá. Vou fazer algumas perguntas para registrar seu histórico. Podemos começar?"
+  utter_ask_nome:
+    - text: "Olá. Vou fazer algumas perguntas para registrar seu histórico. Para começar, qual é o seu nome?"
 
-  utter_apoio_emocional:
-    - text: "Entendo. Obrigado por compartilhar isso. Vamos continuar no seu ritmo."
-
-  utter_validar_resposta:
-    - text: "Anotado. Vamos continuar."
-
-  utter_transicao_bloco:
-    - text: "Agora vou fazer algumas perguntas sobre como isso está afetando sua rotina."
-
-  utter_perguntar_nome:
-    - text: "Qual é o seu nome?"
-
-  utter_perguntar_idade:
+  utter_ask_idade:
     - text: "Quantos anos você tem?"
 
-  utter_perguntar_sexo:
-    - text: "Como você se identifica? Masculino, feminino ou prefere não dizer?"
-
-  utter_perguntar_queixa_principal:
-    - text: "Qual é o principal problema ou sintoma que te trouxe aqui hoje?"
-
-  utter_perguntar_humor:
-    - text: "Como você descreveria seu humor nas últimas semanas? Tem se sentido triste, vazio ou sem ânimo?"
-
-  utter_perguntar_anedonia:
-    - text: "Você ainda sente prazer nas coisas que costumava gostar, como hobbies, amigos ou atividades do dia a dia?"
-
-  utter_perguntar_pensamentos:
-    - text: "Você tem tido pensamentos negativos sobre si mesmo, como se sentir inútil, um peso ou sem valor?"
-
-  utter_perguntar_ansiedade:
-    - text: "Você se preocupa muito com as coisas, mesmo sem um motivo claro? Sente dificuldade de relaxar?"
-
-  utter_perguntar_panico:
-    - text: "Já teve episódios de crise intensa, com coração acelerado, falta de ar ou sensação de que algo ruim ia acontecer?"
-
-  utter_perguntar_fobia_social:
-    - text: "Situações sociais te causam ansiedade ou você tende a evitá-las?"
-
-  utter_perguntar_sintomas_fisicos:
-    - text: "Você sente sintomas físicos quando está ansioso, como tremor, aperto no peito, tontura ou falta de ar?"
-
-  utter_perguntar_sono:
-    - text: "Como está seu sono? Tem dificuldade para dormir, acorda muito durante a noite ou dorme mais do que o normal?"
-
-  utter_perguntar_apetite:
-    - text: "Seu apetite mudou? Está comendo menos, mais, ou não sente fome?"
-
-  utter_perguntar_cognicao:
-    - text: "Tem tido dificuldade para se concentrar, tomar decisões ou sua memória está falhando?"
-
-  utter_perguntar_impacto_trabalho:
-    - text: "Esses problemas estão afetando seu trabalho ou estudos? Como?"
-
-  utter_perguntar_impacto_social:
-    - text: "Você tem se afastado de amigos ou familiares por causa de como está se sentindo?"
-
-  utter_perguntar_impacto_autocuidado:
-    - text: "Você tem conseguido se cuidar normalmente, como higiene, alimentação e tarefas básicas do dia a dia?"
-
-  utter_perguntar_duracao:
-    - text: "Há quanto tempo você está se sentindo assim?"
-
-  utter_perguntar_intensidade:
-    - text: "Como você avaliaria a intensidade do que sente? Numa escala de 1 a 10, qual seria?"
-
-  utter_perguntar_frequencia:
-    - text: "Com que frequência esses sintomas aparecem? Todo dia, algumas vezes por semana ou de forma esporádica?"
-
-  utter_perguntar_fator_desencadeante:
-    - text: "Você consegue identificar algum evento ou situação que desencadeou esses sintomas?"
-
-  utter_perguntar_tratamento_anterior:
-    - text: "Você já fez algum tratamento psicológico ou psiquiátrico anteriormente?"
-
-  utter_perguntar_medicacao:
-    - text: "Você está tomando alguma medicação atualmente, seja prescrita ou não?"
-
-  utter_perguntar_historico_familiar:
-    - text: "Há histórico de transtornos mentais na sua família, como depressão, ansiedade ou outros?"
-
-  utter_perguntar_ideacao:
-    - text: "Você já teve ou tem pensamentos de se machucar ou de que seria melhor não estar aqui?"
-
-  utter_protocolo_risco_suicida:
-    - text: "Obrigado por compartilhar isso. Esse é um ponto muito importante e será avaliado com prioridade pelo profissional responsável. Vou registrar agora."
-
-  utter_risco_suicida_registrado:
-    - text: "A informação foi registrada. O profissional responsável será notificado."
-
-  utter_aceitar_indefinido:
-    - text: "Tudo bem, sem problema. Vamos continuar."
-
-  utter_repetir_pergunta:
-    - text: "Claro, vou repetir. {ultima_pergunta}"
-
-  utter_nao_entendi:
-    - text: "Desculpe, não entendi bem. Pode reformular?"
-
-  utter_confirmar_recebi:
-    - text: "Entendido. Anotado."
-
-  utter_paciente_sem_tratamento:
-    - text: "Entendido. Esse será o seu primeiro contato com acompanhamento profissional."
-
-  utter_paciente_com_tratamento:
-    - text: "Certo. Vou registrar o histórico de tratamento anterior."
-
-  utter_sem_historico_familiar:
-    - text: "Entendido. Sem histórico familiar registrado."
-
-  utter_com_historico_familiar:
-    - text: "Anotado. O histórico familiar será considerado na avaliação."
-
-  utter_encerrar_anamnese:
-    - text: "Obrigado pelas respostas. As informações foram registradas e estarão disponíveis para o profissional responsável."
-
-  utter_anamnese_incompleta:
-    - text: "A sessão foi encerrada antes de concluirmos todas as perguntas. O que foi coletado até aqui foi salvo."
+  utter_ask_sexo:
+    - text: "Como você se identifica?"
+      buttons:
+        - title: "Masculino"
+          payload: "Masculino"
+        - title: "Feminino"
+          payload: "Feminino"
+        - title: "Prefiro não dizer"
+          payload: "Prefiro não dizer"
 
 actions:
-  - action_perguntar_nome
-  - action_perguntar_idade
-  - action_perguntar_sexo
-  - action_perguntar_queixa_principal
-  - action_perguntar_humor
-  - action_perguntar_anedonia
-  - action_perguntar_pensamentos
-  - action_perguntar_ansiedade
-  - action_perguntar_panico
-  - action_perguntar_fobia_social
-  - action_perguntar_sintomas_fisicos
-  - action_perguntar_sono
-  - action_perguntar_apetite
-  - action_perguntar_cognicao
-  - action_perguntar_impacto_trabalho
-  - action_perguntar_impacto_social
-  - action_perguntar_impacto_autocuidado
-  - action_perguntar_duracao
-  - action_perguntar_intensidade
-  - action_perguntar_frequencia
-  - action_perguntar_fator_desencadeante
-  - action_perguntar_tratamento_anterior
-  - action_perguntar_medicacao
-  - action_processar_resposta_generica
-  - action_perguntar_historico_familiar
-  - action_perguntar_ideacao
+  - validate_identificacao_form
+  - action_iniciar_questionario
+  - action_registrar_resposta
   - action_protocolo_risco_suicida
-  - action_repetir_ultima_pergunta
-  - action_aceitar_indefinido_e_continuar
   - action_encerrar_anamnese
 
 session_config:

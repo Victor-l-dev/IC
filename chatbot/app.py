@@ -176,24 +176,12 @@ section[data-testid="stChatInput"] textarea:focus {
 """, unsafe_allow_html=True)
 
 
-PALAVRAS_RISCO = [
-    "machucar", "morrer", "suicídio", "suicidio", "não quero viver",
-    "nao quero viver", "desaparecer", "seria melhor morrer",
-    "não estar aqui", "nao estar aqui", "pensamentos de suicídio",
-    "gostaria de morrer", "acabar com tudo", "protocolo_risco", "não vejo sentido na vida", 
-    'não me sinto como uma pessoa', "não tenho valor"
-]
-
+# Só os dados de identificação aparecem para o paciente.
+# Scores e respostas ficam restritos ao profissional.
 SLOTS_LABELS = {
     "nome": "Nome",
     "idade": "Idade",
     "sexo": "Sexo",
-    "queixa_principal": "Queixa principal",
-    "duracao_sintomas": "Duração dos sintomas",
-    "intensidade_sintomas": "Intensidade",
-    "medicacao_atual": "Medicação atual",
-    "tem_ideacao_suicida": "Ideação suicida",
-    "tem_tratamento_anterior": "Tratamento anterior",
 }
 
 KEYS_SESSION = ["session_id", "messages", "slots", "risco", "encerrada", "iniciada"]
@@ -220,55 +208,55 @@ def sincronizar_slots():
         resp.raise_for_status()
         slots_rasa = resp.json().get("slots", {})
 
-        # Ignora slots internos de controle de fluxo, não são pra mostrar no painel
-        ignorar = {"ultima_pergunta", "etapa_atual", "anamnese_encerrada", "session_started_metadata"}
-        for chave, valor in slots_rasa.items():
-            if chave in ignorar:
-                continue
-            if valor is not None:
-                st.session_state.slots[chave] = valor
+        for chave in SLOTS_LABELS:
+            if slots_rasa.get(chave) is not None:
+                st.session_state.slots[chave] = slots_rasa[chave]
+
+        st.session_state.risco = bool(slots_rasa.get("tem_ideacao_suicida"))
+        st.session_state.encerrada = bool(slots_rasa.get("anamnese_encerrada"))
     except Exception:
         # Se o tracker não responder, mantém o que já tinha em session_state (não quebra a UI)
         pass
 
 
-def enviar_para_rasa(mensagem: str) -> list[str]:
+def enviar_para_rasa(mensagem: str) -> list[dict]:
     try:
         resp = requests.post(
             RASA_URL,
             json={"sender": st.session_state.session_id, "message": mensagem},
-            timeout=10,
+            timeout=30,
         )
         resp.raise_for_status()
-        return [item.get("text", "") for item in resp.json() if item.get("text")]
+        return [
+            {"text": item["text"], "buttons": item.get("buttons") or []}
+            for item in resp.json() if item.get("text")
+        ]
     except requests.exceptions.ConnectionError:
-        return ["Não foi possível conectar ao servidor Rasa. Verifique se ele está rodando em localhost:5005."]
+        return [{"text": "Não foi possível conectar ao servidor Rasa. Verifique se ele está rodando em localhost:5005.", "buttons": []}]
     except Exception as e:
-        return [f"Erro inesperado: {e}"]
+        return [{"text": f"Erro inesperado: {e}", "buttons": []}]
 
 
-def detectar_risco(texto: str) -> bool:
-    return any(p in texto.lower() for p in PALAVRAS_RISCO)
-
-
-def processar_respostas_bot(respostas: list[str]):
+def processar_respostas_bot(respostas: list[dict]):
     for r in respostas:
-        if detectar_risco(r):
-            st.session_state.risco = True
-            st.session_state.slots["tem_ideacao_suicida"] = True
-        if "encerradas" in r.lower() or "foram registradas" in r.lower():
-            st.session_state.encerrada = True
-        is_risco = detectar_risco(r)
-        adicionar_mensagem("bot", r, risco=is_risco)
+        adicionar_mensagem("bot", r["text"], botoes=r["buttons"])
 
 
-def adicionar_mensagem(role: str, texto: str, risco: bool = False):
+def adicionar_mensagem(role: str, texto: str, botoes: list | None = None):
     st.session_state.messages.append({
         "role": role,
         "text": texto,
         "ts": datetime.now().strftime("%H:%M"),
-        "risco": risco,
+        "botoes": botoes or [],
     })
+
+
+def responder(texto_exibido: str, mensagem: str):
+    """Registra a resposta do paciente, envia ao Rasa e atualiza a tela."""
+    adicionar_mensagem("user", texto_exibido)
+    processar_respostas_bot(enviar_para_rasa(mensagem))
+    sincronizar_slots()
+    st.rerun()
 
 
 def renderizar_mensagens():
@@ -277,12 +265,11 @@ def renderizar_mensagens():
         ts = msg.get("ts", "")
 
         if msg["role"] == "bot":
-            bubble_class = "bubble-risco" if msg.get("risco") else "bubble bubble-bot"
             st.markdown(f"""
             <div class="msg-bot">
                 <div class="avatar avatar-bot">🧠</div>
                 <div>
-                    <div class="{bubble_class}">{texto_safe}</div>
+                    <div class="bubble bubble-bot">{texto_safe}</div>
                     <div class="ts">{ts}</div>
                 </div>
             </div>
@@ -323,22 +310,23 @@ if not st.session_state.iniciada:
 
 renderizar_mensagens()
 
-if not st.session_state.encerrada:
+ultima = st.session_state.messages[-1] if st.session_state.messages else None
+botoes = ultima["botoes"] if ultima and ultima["role"] == "bot" else []
+
+if st.session_state.encerrada:
+    st.info("A anamnese foi encerrada. Use o botão abaixo para iniciar uma nova sessão.")
+elif botoes:
+    # Pergunta com opções fixas: o paciente responde só pelos botões
+    colunas = st.columns(len(botoes))
+    for i, (coluna, botao) in enumerate(zip(colunas, botoes)):
+        with coluna:
+            if st.button(botao["title"], key=f"opcao_{len(st.session_state.messages)}_{i}", use_container_width=True):
+                responder(botao["title"], botao["payload"])
+else:
     user_input = st.chat_input("Digite sua resposta...")
     if user_input:
         texto = user_input.strip()
-        adicionar_mensagem("user", texto)
-
-        if detectar_risco(texto):
-            st.session_state.risco = True
-            st.session_state.slots["tem_ideacao_suicida"] = True
-
-        respostas = enviar_para_rasa(texto)
-        processar_respostas_bot(respostas)
-        sincronizar_slots()
-        st.rerun()
-else:
-    st.info("A anamnese foi encerrada. Use o botão abaixo para iniciar uma nova sessão.")
+        responder(texto, texto)
 
 slots_visiveis = {k: v for k, v in st.session_state.slots.items() if v is not None}
 if slots_visiveis:

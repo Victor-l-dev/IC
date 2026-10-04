@@ -2,107 +2,34 @@ version: "3.1"
 
 rules:
 
-- rule: iniciar anamnese - pedir nome
+- rule: iniciar anamnese - identificacao
   steps:
     - intent: iniciar_anamnese
-    - action: action_perguntar_nome
+    - action: identificacao_form
+    - active_loop: identificacao_form
 
-- rule: apos nome - pedir idade
+- rule: identificacao concluida - iniciar questionario
+  condition:
+    - active_loop: identificacao_form
   steps:
-    - intent: informar_nome
-    - action: action_perguntar_idade
+    - action: identificacao_form
+    - active_loop: null
+    - slot_was_set:
+        - requested_slot: null
+    - action: action_iniciar_questionario
 
-- rule: apos idade - pedir sexo
+- rule: resposta da escala - registrar e seguir
   steps:
-    - intent: informar_idade
-    - action: action_perguntar_sexo
+    - intent: responder_escala
+    - action: action_registrar_resposta
 
-- rule: apos sexo - pedir queixa principal
+- rule: ideacao afirmada - alertar profissional e encerrar
   steps:
-    - intent: informar_sexo
-    - action: action_perguntar_queixa_principal
+    - intent: afirmar_ideacao
+    - action: action_protocolo_risco_suicida
+    - action: action_encerrar_anamnese
 
-- rule: apos queixa principal - pedir humor
+- rule: ideacao negada - encerrar anamnese
   steps:
-    - intent: relatar_queixa_principal
-    - action: action_perguntar_humor
-
-- rule: apos humor deprimido - pedir anedonia
-  steps:
-    - intent: relatar_humor_deprimido
-    - action: action_perguntar_anedonia
-
-- rule: apos anedonia - pedir pensamentos
-  steps:
-    - intent: relatar_anedonia
-    - action: action_perguntar_pensamentos
-
-- rule: apos pensamentos negativos - pedir apetite
-  steps:
-    - intent: relatar_pensamentos_negativos
-    - action: action_perguntar_apetite
-
-- rule: apos alteracao apetite - pedir cognicao
-  steps:
-    - intent: relatar_alteracao_apetite
-    - action: action_perguntar_cognicao
-
-- rule: apos dificuldade cognitiva - pedir impacto trabalho
-  steps:
-    - intent: relatar_dificuldade_cognitiva
-    - action: action_perguntar_impacto_trabalho
-
-- rule: apos impacto trabalho - pedir impacto social
-  steps:
-    - intent: relatar_impacto_trabalho_estudo
-    - action: action_perguntar_impacto_social
-
-- rule: apos impacto social - pedir impacto autocuidado
-  steps:
-    - intent: relatar_impacto_social
-    - action: action_perguntar_impacto_autocuidado
-
-- rule: apos impacto autocuidado - pedir duracao
-  steps:
-    - intent: relatar_impacto_autocuidado
-    - action: action_perguntar_duracao
-
-- rule: apos duracao - pedir intensidade
-  steps:
-    - intent: informar_duracao_sintomas
-    - action: action_perguntar_intensidade
-
-- rule: apos intensidade - pedir frequencia
-  steps:
-    - intent: informar_intensidade_sintomas
-    - action: action_perguntar_frequencia
-
-- rule: apos frequencia - pedir fator desencadeante
-  steps:
-    - intent: informar_frequencia_sintomas
-    - action: action_perguntar_fator_desencadeante
-
-- rule: apos fator desencadeante - pedir tratamento anterior
-  steps:
-    - intent: informar_fator_desencadeante
-    - action: action_perguntar_tratamento_anterior
-
-- rule: apos tratamento anterior - pedir medicacao
-  steps:
-    - intent: informar_tratamento_anterior
-    - action: action_perguntar_medicacao
-
-- rule: apos medicacao - pedir historico familiar
-  steps:
-    - intent: informar_medicacao_atual
-    - action: action_perguntar_historico_familiar
-
-- rule: apos historico familiar - pedir ideacao
-  steps:
-    - intent: informar_historico_familiar
-    - action: action_perguntar_ideacao
-
-- rule: apos negar ideacao - encerrar anamnese
-  steps:
-    - intent: negar_ideacao_suicida
+    - intent: negar_ideacao
     - action: action_encerrar_anamnese
