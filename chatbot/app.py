@@ -65,30 +65,32 @@ html, body, [class*="css"] {
     font-weight: 300;
 }
 
-/* Box fixo no canto direito: status da anamnese e nome do paciente */
+/* Box fixo no canto esquerdo: status da anamnese e nome do paciente.
+   Largura de até 440px, limitada ao espaço livre ao lado da conversa. */
 .painel-status {
     position: fixed;
     top: 1.25rem;
-    right: 1.25rem;
+    left: 1.25rem;
     z-index: 999999;
-    width: 220px;
+    width: min(440px, calc((100vw - 760px) / 2 - 2.5rem));
     background: #0e1117;
     border: 1px solid #1c2230;
     border-left: 2px solid #2f6bff;
     border-radius: 12px;
-    padding: 0.9rem 1rem;
+    padding: 1.1rem 1.2rem;
 }
 .painel-rotulo {
     font-size: 0.62rem;
     letter-spacing: 0.08em;
     text-transform: uppercase;
     color: #6b7280;
+    margin-bottom: 0.3rem;
 }
 .painel-valor {
     font-size: 0.88rem;
     font-weight: 500;
     color: #e8e6e1;
-    margin-bottom: 0.7rem;
+    margin-bottom: 1.1rem;
     overflow-wrap: anywhere;
 }
 .painel-valor:last-child { margin-bottom: 0; }
@@ -105,6 +107,9 @@ html, body, [class*="css"] {
         margin-bottom: 1.5rem;
     }
 }
+
+/* Respiro entre a pergunta do chatbot e os botões de resposta */
+.espaco-opcoes { height: 1rem; }
 
 .msg-bot, .msg-user {
     display: flex;
@@ -385,6 +390,7 @@ if st.session_state.encerrada:
     st.info("A anamnese foi encerrada. Use o botão abaixo para iniciar uma nova sessão.")
 elif botoes:
     # Pergunta com opções fixas: o paciente responde só pelos botões
+    st.markdown('<div class="espaco-opcoes"></div>', unsafe_allow_html=True)
     colunas = st.columns(len(botoes))
     for i, (coluna, botao) in enumerate(zip(colunas, botoes)):
         with coluna:
