@@ -16,12 +16,19 @@ st.set_page_config(
 
 st.markdown("""
 <style>
-@import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=DM+Sans:wght@300;400;500&display=swap');
 
 html, body, [class*="css"] {
     font-family: 'DM Sans', sans-serif;
-    background-color: #0f1117;
+    background-color: #050608;
     color: #e8e6e1;
+}
+.stApp,
+[data-testid="stAppViewContainer"],
+[data-testid="stBottom"],
+[data-testid="stBottom"] > div,
+[data-testid="stBottomBlockContainer"] {
+    background-color: #050608 !important;
 }
 
 #MainMenu, footer, header { visibility: hidden; }
@@ -30,14 +37,25 @@ html, body, [class*="css"] {
 .anamnese-header {
     text-align: center;
     padding: 2.5rem 0 1.5rem 0;
-    border-bottom: 1px solid #1e2130;
+    border-bottom: 1px solid #1c2230;
     margin-bottom: 2rem;
 }
-.anamnese-header h1 {
-    font-family: 'DM Serif Display', serif;
+.anamnese-header::after {
+    content: "";
+    display: block;
+    width: 56px;
+    height: 2px;
+    margin: 1.2rem auto 0 auto;
+    background: #2f6bff;
+    border-radius: 2px;
+}
+.anamnese-titulo {
+    font-family: 'Space Grotesk', 'DM Sans', sans-serif;
     font-size: 2rem;
+    font-weight: 700;
     color: #e8e6e1;
     letter-spacing: -0.5px;
+    line-height: 1.2;
     margin: 0;
 }
 .anamnese-header p {
@@ -47,19 +65,46 @@ html, body, [class*="css"] {
     font-weight: 300;
 }
 
-.status-badge {
-    display: inline-block;
-    padding: 0.25rem 0.75rem;
-    border-radius: 999px;
-    font-size: 0.7rem;
-    font-weight: 500;
-    letter-spacing: 0.05em;
-    text-transform: uppercase;
-    margin-bottom: 1.5rem;
+/* Box fixo no canto direito: status da anamnese e nome do paciente */
+.painel-status {
+    position: fixed;
+    top: 1.25rem;
+    right: 1.25rem;
+    z-index: 999999;
+    width: 220px;
+    background: #0e1117;
+    border: 1px solid #1c2230;
+    border-left: 2px solid #2f6bff;
+    border-radius: 12px;
+    padding: 0.9rem 1rem;
 }
-.status-ativo     { background: #0d2b1f; color: #34d399; border: 1px solid #065f46; }
-.status-risco     { background: #2b0d0d; color: #f87171; border: 1px solid #991b1b; }
-.status-encerrado { background: #1a1e2e; color: #94a3b8; border: 1px solid #334155; }
+.painel-rotulo {
+    font-size: 0.62rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #6b7280;
+}
+.painel-valor {
+    font-size: 0.88rem;
+    font-weight: 500;
+    color: #e8e6e1;
+    margin-bottom: 0.7rem;
+    overflow-wrap: anywhere;
+}
+.painel-valor:last-child { margin-bottom: 0; }
+.painel-ativo .painel-status-valor { color: #7ea6ff; }
+.painel-neutro .painel-status-valor { color: #94a3b8; }
+.painel-risco { border-left-color: #f87171; }
+.painel-risco .painel-status-valor { color: #f87171; }
+
+/* Sem espaço ao lado da conversa: o box sobe para acima dela */
+@media (max-width: 1280px) {
+    .painel-status {
+        position: static;
+        width: auto;
+        margin-bottom: 1.5rem;
+    }
+}
 
 .msg-bot, .msg-user {
     display: flex;
@@ -70,29 +115,36 @@ html, body, [class*="css"] {
 }
 .msg-user { flex-direction: row-reverse; }
 
+.msg-corpo {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    max-width: 78%;
+}
+.msg-user .msg-corpo { align-items: flex-end; }
+
 @keyframes fadeUp {
     from { opacity: 0; transform: translateY(8px); }
     to   { opacity: 1; transform: translateY(0); }
 }
 
 .bubble {
-    max-width: 78%;
     padding: 0.85rem 1.1rem;
     border-radius: 16px;
     font-size: 0.9rem;
     line-height: 1.6;
 }
 .bubble-bot {
-    background: #1a1e2e;
+    background: #0e1117;
     color: #e8e6e1;
     border-bottom-left-radius: 4px;
-    border: 1px solid #252a3d;
+    border: 1px solid #1c2230;
 }
 .bubble-user {
-    background: #1a3a2e;
-    color: #d1fae5;
+    background: #0f2257;
+    color: #e6edff;
     border-bottom-right-radius: 4px;
-    border: 1px solid #166534;
+    border: 1px solid #2f6bff;
 }
 .bubble-risco {
     background: #2b0d0d;
@@ -112,18 +164,21 @@ html, body, [class*="css"] {
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 0.85rem;
+    font-family: 'Space Grotesk', 'DM Sans', sans-serif;
+    font-size: 0.8rem;
+    font-weight: 700;
     flex-shrink: 0;
 }
-.avatar-bot  { background: #1e2a4a; border: 1px solid #2d3d6b; }
-.avatar-user { background: #0d2b1f; border: 1px solid #166534; }
+.avatar-bot  { background: #0b1530; border: 1px solid #2f6bff; color: #7ea6ff; }
+.avatar-user { background: #0e1117; border: 1px solid #1c2230; color: #94a3b8; }
 
 .ts { font-size: 0.65rem; color: #4b5563; margin-top: 0.2rem; padding: 0 0.5rem; }
 .ts-right { text-align: right; }
 
+/* Botão secundário (Nova sessão): discreto */
 .stButton > button {
     background: transparent;
-    border: 1px solid #1e2130;
+    border: 1px solid #1c2230;
     color: #6b7280;
     border-radius: 8px;
     font-size: 0.78rem;
@@ -131,31 +186,64 @@ html, body, [class*="css"] {
     transition: all 0.2s;
 }
 .stButton > button:hover {
-    border-color: #374151;
-    color: #9ca3af;
-    background: #1a1e2e;
+    border-color: #2f6bff;
+    color: #c7d7ff;
+    background: #0e1117;
+}
+
+/* Botões de resposta: destaque principal da tela */
+.stButton > button[kind="primary"],
+.stButton > button[data-testid="stBaseButton-primary"] {
+    background: #2f6bff !important;
+    border: 1px solid #2f6bff !important;
+    color: #ffffff !important;
+    border-radius: 10px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    padding: 0.8rem 0.6rem;
+    min-height: 3.2rem;
+    box-shadow: 0 2px 8px rgba(47, 107, 255, 0.14);
+}
+.stButton > button[kind="primary"] p,
+.stButton > button[data-testid="stBaseButton-primary"] p {
+    font-size: 0.95rem;
+    font-weight: 600;
+}
+.stButton > button[kind="primary"]:hover,
+.stButton > button[data-testid="stBaseButton-primary"]:hover {
+    background: #4f84ff !important;
+    border-color: #4f84ff !important;
+    color: #ffffff !important;
+    box-shadow: 0 3px 12px rgba(47, 107, 255, 0.22);
+    transform: translateY(-1px);
+}
+.stButton > button[kind="primary"]:focus-visible,
+.stButton > button[data-testid="stBaseButton-primary"]:focus-visible {
+    outline: 2px solid #c7d7ff;
+    outline-offset: 2px;
 }
 
 section[data-testid="stChatInput"] textarea {
-    background: #131720 !important;
-    border: 1px solid #1e2130 !important;
+    background: #0e1117 !important;
+    border: 1px solid #1c2230 !important;
     color: #e8e6e1 !important;
     font-family: 'DM Sans', sans-serif !important;
     font-size: 0.9rem !important;
 }
 section[data-testid="stChatInput"] textarea:focus {
-    border-color: #2d3d6b !important;
-    box-shadow: 0 0 0 2px rgba(45, 61, 107, 0.3) !important;
+    border-color: #2f6bff !important;
+    box-shadow: 0 0 0 2px rgba(47, 107, 255, 0.3) !important;
 }
 </style>
 """, unsafe_allow_html=True)
 
 
-KEYS_SESSION = ["session_id", "messages", "risco", "encerrada", "iniciada"]
+KEYS_SESSION = ["session_id", "messages", "nome", "risco", "encerrada", "iniciada"]
 
 for key, default in [
     ("session_id", str(uuid.uuid4())),
     ("messages", []),
+    ("nome", ""),
     ("risco", False),
     ("encerrada", False),
     ("iniciada", False),
@@ -165,7 +253,7 @@ for key, default in [
 
 
 def sincronizar_slots():
-    """Busca no Rasa o estado da conversa (risco e encerramento) para atualizar a tela."""
+    """Busca no Rasa o estado da conversa (nome, risco e encerramento) para atualizar a tela."""
     try:
         resp = requests.get(
             RASA_TRACKER_URL.format(sender=st.session_state.session_id),
@@ -174,6 +262,7 @@ def sincronizar_slots():
         resp.raise_for_status()
         slots_rasa = resp.json().get("slots", {})
 
+        st.session_state.nome = slots_rasa.get("nome") or ""
         st.session_state.risco = bool(slots_rasa.get("tem_ideacao_suicida"))
         st.session_state.encerrada = bool(slots_rasa.get("anamnese_encerrada"))
     except Exception:
@@ -222,6 +311,9 @@ def responder(texto_exibido: str, mensagem: str):
 
 
 def renderizar_mensagens():
+    # Avatar do paciente: inicial do nome, quando já informado
+    inicial = html.escape(st.session_state.nome[:1].upper()) or "•"
+
     for msg in st.session_state.messages:
         texto_safe = html.escape(msg["text"])
         ts = msg.get("ts", "")
@@ -229,8 +321,8 @@ def renderizar_mensagens():
         if msg["role"] == "bot":
             st.markdown(f"""
             <div class="msg-bot">
-                <div class="avatar avatar-bot">🧠</div>
-                <div>
+                <div class="avatar avatar-bot">A</div>
+                <div class="msg-corpo">
                     <div class="bubble bubble-bot">{texto_safe}</div>
                     <div class="ts">{ts}</div>
                 </div>
@@ -239,8 +331,8 @@ def renderizar_mensagens():
         else:
             st.markdown(f"""
             <div class="msg-user">
-                <div class="avatar avatar-user">👤</div>
-                <div>
+                <div class="avatar avatar-user">{inicial}</div>
+                <div class="msg-corpo">
                     <div class="bubble bubble-user">{texto_safe}</div>
                     <div class="ts ts-right">{ts}</div>
                 </div>
@@ -248,27 +340,41 @@ def renderizar_mensagens():
             """, unsafe_allow_html=True)
 
 
-st.markdown("""
-<div class="anamnese-header">
-    <h1>Anamnese Clínica</h1>
-    <p>Coleta automatizada de histórico em saúde mental</p>
-</div>
-""", unsafe_allow_html=True)
+def renderizar_painel_status():
+    if st.session_state.risco:
+        classe, status = "painel-risco", "⚠ Alerta de risco"
+    elif st.session_state.encerrada:
+        classe, status = "painel-neutro", "✓ Encerrada"
+    elif st.session_state.iniciada:
+        classe, status = "painel-ativo", "● Em andamento"
+    else:
+        classe, status = "painel-neutro", "○ Aguardando início"
 
-if st.session_state.risco:
-    st.markdown('<div class="status-badge status-risco">⚠ Alerta de risco identificado</div>', unsafe_allow_html=True)
-elif st.session_state.encerrada:
-    st.markdown('<div class="status-badge status-encerrado">✓ Anamnese encerrada</div>', unsafe_allow_html=True)
-elif st.session_state.iniciada:
-    st.markdown('<div class="status-badge status-ativo">● Em andamento</div>', unsafe_allow_html=True)
-else:
-    st.markdown('<div class="status-badge status-encerrado">○ Aguardando início</div>', unsafe_allow_html=True)
+    nome = html.escape(st.session_state.nome) or "—"
+    st.markdown(f"""
+    <div class="painel-status {classe}">
+        <div class="painel-rotulo">Status da anamnese</div>
+        <div class="painel-valor painel-status-valor">{status}</div>
+        <div class="painel-rotulo">Paciente</div>
+        <div class="painel-valor">{nome}</div>
+    </div>
+    """, unsafe_allow_html=True)
+
 
 if not st.session_state.iniciada:
     respostas = enviar_para_rasa("quero começar")
     processar_respostas_bot(respostas)
     sincronizar_slots()
     st.session_state.iniciada = True
+
+st.markdown("""
+<div class="anamnese-header">
+    <div class="anamnese-titulo">Anamnese Clínica</div>
+    <p>Coleta automatizada de histórico em saúde mental</p>
+</div>
+""", unsafe_allow_html=True)
+
+renderizar_painel_status()
 
 renderizar_mensagens()
 
@@ -282,7 +388,7 @@ elif botoes:
     colunas = st.columns(len(botoes))
     for i, (coluna, botao) in enumerate(zip(colunas, botoes)):
         with coluna:
-            if st.button(botao["title"], key=f"opcao_{len(st.session_state.messages)}_{i}", use_container_width=True):
+            if st.button(botao["title"], key=f"opcao_{len(st.session_state.messages)}_{i}", type="primary", use_container_width=True):
                 responder(botao["title"], botao["payload"])
 else:
     user_input = st.chat_input("Digite sua resposta...")
