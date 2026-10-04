@@ -121,31 +121,6 @@ html, body, [class*="css"] {
 .ts { font-size: 0.65rem; color: #4b5563; margin-top: 0.2rem; padding: 0 0.5rem; }
 .ts-right { text-align: right; }
 
-.slots-panel {
-    background: #131720;
-    border: 1px solid #1e2130;
-    border-radius: 12px;
-    padding: 1.2rem 1.4rem;
-    margin-top: 1.5rem;
-}
-.slots-panel h4 {
-    font-family: 'DM Serif Display', serif;
-    font-size: 0.95rem;
-    color: #94a3b8;
-    margin: 0 0 0.8rem 0;
-    letter-spacing: 0.02em;
-}
-.slot-row {
-    display: flex;
-    justify-content: space-between;
-    padding: 0.35rem 0;
-    border-bottom: 1px solid #1a1e2e;
-    font-size: 0.8rem;
-}
-.slot-row:last-child { border-bottom: none; }
-.slot-key { color: #6b7280; }
-.slot-val { color: #e8e6e1; font-weight: 500; }
-
 .stButton > button {
     background: transparent;
     border: 1px solid #1e2130;
@@ -176,20 +151,11 @@ section[data-testid="stChatInput"] textarea:focus {
 """, unsafe_allow_html=True)
 
 
-# Só os dados de identificação aparecem para o paciente.
-# Scores e respostas ficam restritos ao profissional.
-SLOTS_LABELS = {
-    "nome": "Nome",
-    "idade": "Idade",
-    "sexo": "Sexo",
-}
-
-KEYS_SESSION = ["session_id", "messages", "slots", "risco", "encerrada", "iniciada"]
+KEYS_SESSION = ["session_id", "messages", "risco", "encerrada", "iniciada"]
 
 for key, default in [
     ("session_id", str(uuid.uuid4())),
     ("messages", []),
-    ("slots", {}),
     ("risco", False),
     ("encerrada", False),
     ("iniciada", False),
@@ -199,7 +165,7 @@ for key, default in [
 
 
 def sincronizar_slots():
-    """Busca os slots reais da conversa direto do Rasa e atualiza st.session_state.slots."""
+    """Busca no Rasa o estado da conversa (risco e encerramento) para atualizar a tela."""
     try:
         resp = requests.get(
             RASA_TRACKER_URL.format(sender=st.session_state.session_id),
@@ -207,10 +173,6 @@ def sincronizar_slots():
         )
         resp.raise_for_status()
         slots_rasa = resp.json().get("slots", {})
-
-        for chave in SLOTS_LABELS:
-            if slots_rasa.get(chave) is not None:
-                st.session_state.slots[chave] = slots_rasa[chave]
 
         st.session_state.risco = bool(slots_rasa.get("tem_ideacao_suicida"))
         st.session_state.encerrada = bool(slots_rasa.get("anamnese_encerrada"))
@@ -327,20 +289,6 @@ else:
     if user_input:
         texto = user_input.strip()
         responder(texto, texto)
-
-slots_visiveis = {k: v for k, v in st.session_state.slots.items() if v is not None}
-if slots_visiveis:
-    st.markdown('<div class="slots-panel"><h4>Dados coletados até agora</h4>', unsafe_allow_html=True)
-    for key, val in slots_visiveis.items():
-        label = SLOTS_LABELS.get(key, key)
-        val_str = ("Sim" if val else "Não") if isinstance(val, bool) else html.escape(str(val))
-        st.markdown(f"""
-        <div class="slot-row">
-            <span class="slot-key">{label}</span>
-            <span class="slot-val">{val_str}</span>
-        </div>
-        """, unsafe_allow_html=True)
-    st.markdown('</div>', unsafe_allow_html=True)
 
 st.markdown("<br>", unsafe_allow_html=True)
 _, col_b, _ = st.columns([3, 2, 3])

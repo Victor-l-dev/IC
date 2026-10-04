@@ -83,7 +83,7 @@ def perguntar(dispatcher: CollectingDispatcher, indice: int):
     """Envia a pergunta do índice informado com os botões da escala."""
     pergunta = PERGUNTAS[indice]
     dispatcher.utter_message(
-        text=f"Pergunta {indice + 1} de {len(PERGUNTAS)}. Nas últimas duas semanas, {pergunta['texto']}",
+        text=f"Nas últimas duas semanas, {pergunta['texto']}",
         buttons=[
             {"title": rotulo, "payload": f'/responder_escala{{"valor":"{valor}"}}'}
             for rotulo, valor in ESCALA
