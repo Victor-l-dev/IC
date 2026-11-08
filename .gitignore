@@ -1,0 +1,10 @@
+.claude.md
+
+# Python
+__pycache__/
+*.pyc
+
+# Rasa: cache, modelos treinados e resultados de testes (gerados localmente)
+chatbot/.rasa/
+chatbot/models/
+chatbot/results/
