@@ -12,7 +12,6 @@ RASA_TRACKER_URL = "http://localhost:5005/conversations/{sender}/tracker"
 
 st.set_page_config(
     page_title="Anamnese — Saúde Mental",
-    page_icon="🧠",
     layout="centered",
     initial_sidebar_state="collapsed",
 )
