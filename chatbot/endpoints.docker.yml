@@ -1,0 +1,5 @@
+# Endpoints usados quando o Rasa roda no docker-compose.
+# Para rodar localmente (fora do Docker), use endpoints.yml.
+
+action_endpoint:
+  url: "http://actions:5055/webhook"

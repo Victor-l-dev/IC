@@ -1,5 +1,8 @@
 .claude.md
 
+# Variáveis de ambiente (credenciais Telegram/SMTP)
+.env
+
 # Python
 __pycache__/
 *.pyc

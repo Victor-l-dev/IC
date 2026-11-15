@@ -1,3 +1,4 @@
+import os
 import streamlit as st
 import requests
 import uuid
@@ -7,8 +8,10 @@ from datetime import datetime
 
 from streamlit.errors import StreamlitAPIException
 
-RASA_URL = "http://localhost:5005/webhooks/rest/webhook"
-RASA_TRACKER_URL = "http://localhost:5005/conversations/{sender}/tracker"
+# No Docker, RASA_URL aponta para o serviço "rasa"; fora dele, usa localhost.
+RASA_BASE_URL = os.getenv("RASA_URL", "http://localhost:5005")
+RASA_URL = f"{RASA_BASE_URL}/webhooks/rest/webhook"
+RASA_TRACKER_URL = f"{RASA_BASE_URL}/conversations/{{sender}}/tracker"
 
 st.set_page_config(
     page_title="Anamnese — Saúde Mental",
@@ -505,7 +508,7 @@ def enviar_para_rasa(mensagem: str) -> list[dict]:
             for item in resp.json() if item.get("text")
         ]
     except requests.exceptions.ConnectionError:
-        return [{"text": "Não foi possível conectar ao servidor Rasa. Verifique se ele está rodando em localhost:5005.", "buttons": []}]
+        return [{"text": f"Não foi possível conectar ao servidor Rasa. Verifique se ele está rodando em {RASA_BASE_URL}.", "buttons": []}]
     except Exception as e:
         return [{"text": f"Erro inesperado: {e}", "buttons": []}]
 

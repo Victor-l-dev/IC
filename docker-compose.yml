@@ -1,0 +1,37 @@
+services:
+  rasa:
+    build:
+      context: ./chatbot
+      dockerfile: ../docker/rasa.Dockerfile
+    ports:
+      - "5005:5005"
+    depends_on:
+      - actions
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:5005/status')"]
+      interval: 10s
+      timeout: 5s
+      retries: 30
+      start_period: 30s
+
+  actions:
+    build:
+      context: ./chatbot
+      dockerfile: ../docker/actions.Dockerfile
+    ports:
+      - "5055:5055"
+    env_file:
+      - path: .env
+        required: false
+
+  streamlit:
+    build:
+      context: ./chatbot
+      dockerfile: ../docker/streamlit.Dockerfile
+    ports:
+      - "8501:8501"
+    environment:
+      RASA_URL: http://rasa:5005
+    depends_on:
+      rasa:
+        condition: service_healthy
